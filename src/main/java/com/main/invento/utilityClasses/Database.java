@@ -17,14 +17,4 @@ public class Database {
             MongoCollection<Document> data =  db.getCollection(collectionName);
             return data;
         }
-
-        public boolean verifyConnection(String collectionName) {
-            boolean flag = true;
-            try  {
-                new Database().getConnection(collectionName);
-            } catch (Exception e) {
-                flag = false;
-            }
-            return flag;
-        }
 }
