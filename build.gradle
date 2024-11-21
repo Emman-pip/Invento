@@ -35,12 +35,16 @@ javafx {
 }
 
 dependencies {
-		// material fx
+    // material fx
     implementation('org.controlsfx:controlsfx:11.2.1')
 
-		// mongodb driver
+    // mongodb driver
     // https://mvnrepository.com/artifact/org.mongodb/mongodb-driver-sync
     implementation group: 'org.mongodb', name: 'mongodb-driver-sync', version: '5.2.1'
+
+    // for javafx.graphics
+    // https://mvnrepository.com/artifact/org.openjfx/javafx-graphics
+    implementation group: 'org.openjfx', name: 'javafx-graphics', version: '23-ea+22'
 
     implementation('org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0')
 

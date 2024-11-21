@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="529.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.UserAuthorizationController">
+   <children>
+      <AnchorPane layoutX="36.0" layoutY="35.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5a9d8d;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <BorderPane layoutX="118.0" layoutY="-11.0" prefHeight="340.0" prefWidth="540.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <left>
+                  <VBox alignment="CENTER" prefHeight="469.0" prefWidth="256.0" style="-fx-background-color: #5a9d8d; -fx-scale-x: 1;" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="233.0" prefWidth="202.0">
+                           <children>
+                              <Label text="WELCOME" textFill="WHITE">
+                                 <font>
+                                    <Font size="32.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <Button mnemonicParsing="false" prefHeight="51.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-radius: 10em; -fx-border-color: #FFFFFF;" text="Sign in" textFill="WHITE" />
+                     </children>
+                  </VBox>
+               </left>
+               <center>
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="272.0" spacing="10.0" style="-fx-background-color: #E8F3F1;" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="81.0" prefWidth="338.0">
+                           <children>
+                              <Label text="Create Account" textFill="#5a9d8d">
+                                 <font>
+                                    <Font size="19.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="202.0" prefWidth="491.0" spacing="20.0">
+                           <children>
+                              <TextField fx:id="username" prefHeight="20.0" promptText="Username" style="-fx-background-color: #D9D9D9;" />
+                              <TextField fx:id="email" prefHeight="20.0" promptText="Email" style="-fx-background-color: #D9D9D9;" />
+                              <TextField fx:id="organization" prefHeight="20.0" prefWidth="411.0" promptText="Organization" style="-fx-background-color: #D9D9D9;" />
+                              <PasswordField fx:id="password" prefHeight="20.0" prefWidth="411.0" promptText="Password" style="-fx-background-color: #D9D9D9;" />
+                              <PasswordField fx:id="confirmPassword" prefHeight="20.0" promptText="Confirm password" style="-fx-background-color: #D9D9D9;" />
+                           </children>
+                           <padding>
+                              <Insets left="40.0" right="40.0" />
+                           </padding>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="97.0" prefWidth="491.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#signUp" prefHeight="47.0" prefWidth="112.0" style="-fx-background-color: transparent; -fx-border-color: #5a9d8d; -fx-border-radius: 10em;" text="Sign up" textFill="#5a9d8d" />
+                              <Label fx:id="warning" textFill="RED" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+   <padding>
+      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+   </padding>
+</AnchorPane>
