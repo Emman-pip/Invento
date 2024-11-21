@@ -36,7 +36,8 @@
                               <Insets left="40.0" right="40.0" />
                            </padding>
                         </VBox>
-                        <Button mnemonicParsing="false" prefHeight="47.0" prefWidth="112.0" style="-fx-background-color: transparent; -fx-border-color: #5a9d8d; -fx-border-radius: 10em;" text="Sign in" textFill="#5a9d8d" />
+                        <Button mnemonicParsing="false" onAction="#login" prefHeight="47.0" prefWidth="112.0" style="-fx-background-color: transparent; -fx-border-color: #5a9d8d; -fx-border-radius: 10em;" text="Sign in" textFill="#5a9d8d" />
+                        <Label fx:id="loginWarning" textFill="RED" />
                      </children>
                   </VBox>
                </center>

@@ -1,4 +1,11 @@
+# TODO
+## tasks to carry
+    - [ ] finish UML
+        - [ ] add usermodel to the UML
+
+
 # JSON structure
+
 
 ## Users
 ```json

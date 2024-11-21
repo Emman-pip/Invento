@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.bson.types.ObjectId;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -57,6 +58,22 @@ public class UserAuthorizationController {
         stage.setTitle("Signup");
         stage.setResizable(false);
         stage.show();
+    }
+
+    @FXML
+    private Label loginWarning;
+
+    @FXML
+    private void login() throws NoSuchAlgorithmException {
+        ObjectId id = UserAuthorizationBinder.bindLogin(this.loginUsername, this.loginPassword);
+        if (id == null) {
+            loginWarning.setText("Invalid credentials");
+            loginWarning.setStyle("-fx-text-fill: red");
+        } else {
+            loginWarning.setText("welcome!");
+            loginWarning.setStyle("-fx-text-fill: green");
+            // pass id to a new window, the dashboard screen
+        }
     }
 
     @FXML
