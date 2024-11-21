@@ -12,7 +12,7 @@
     "logs":{
         "id": ObjectId(),
         "timestamp": timestamp,
-        "login time": timestamp,
+        "loginTime": timestamp,
         "description": "description",
     }
 }

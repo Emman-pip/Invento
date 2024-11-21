@@ -22,9 +22,10 @@ public class UserModel {
         this.org = organization;
         this.password =  password;
         // String ownedInventoriesss
-        this.logs.put("id", new ObjectId());
-        this.logs.put("timestamp", new BsonTimestamp());
-        this.logs.put("login time", new BsonTimestamp());
+        ObjectId id = new ObjectId();
+        this.logs.put("id", id);
+        this.logs.put("timestamp", id.getTimestamp());
+        this.logs.put("loginTime", id.getTimestamp());
         this.logs.put("description", "Account creation");
     }
     public Document getUser(){
