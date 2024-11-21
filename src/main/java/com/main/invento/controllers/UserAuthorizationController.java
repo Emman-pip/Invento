@@ -7,7 +7,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.Labeled;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -34,8 +33,8 @@ public class UserAuthorizationController {
         boolean isValid = UserAuthorizationBinder.validateUser(username) && UserAuthorizationBinder.validateFields(email) && UserAuthorizationBinder.validateFields(password, confirmPassword);
         if (isValid){
             warning.setText("Welcome!!!");
+            UserAuthorizationBinder.bindSignup(this.username.getText(), this.email.getText(), this.organization.getText(), this.password.getText());
             warning.setStyle("-fx-text-fill: green");
-            new UserAuthorizationModel().addUser(this.username.getText(), this.email.getText(), this.organization.getText(), this.password.getText());
         } else {
             warning.setText("Please recheck all the fields.");
             warning.setStyle("-fx-text-fill: red");
@@ -47,7 +46,8 @@ public class UserAuthorizationController {
     @FXML
     private PasswordField loginPassword;
 
-    public void toSignup() throws Exception{
+    @FXML
+    private void toSignup() throws Exception{
         Stage toClose = (Stage) this.loginUsername.getScene().getWindow();
         toClose.close();
         Stage stage = new Stage();
@@ -59,7 +59,8 @@ public class UserAuthorizationController {
         stage.show();
     }
 
-    public void toLogin() throws Exception {
+    @FXML
+    private void toLogin() throws Exception {
         Stage toClose = (Stage) this.confirmPassword.getScene().getWindow();
         toClose.close();
         Stage stage = new Stage();

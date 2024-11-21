@@ -4,6 +4,8 @@ import com.main.invento.models.UserAuthorizationModel;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.security.NoSuchAlgorithmException;
+
 public class UserAuthorizationBinder {
     public static boolean validateFields(TextField email){
         boolean flag = email.getText().contains("@");
@@ -32,5 +34,9 @@ public class UserAuthorizationBinder {
             username.styleProperty().set("-fx-border-color: none; -fx-background-color: #D9D9D9");
         }
         return !flag && username.getText().strip().length() >= 4;
+    }
+
+    public static void bindSignup(String username, String email, String organization, String password) throws NoSuchAlgorithmException {
+        new UserAuthorizationModel().addUser(username, email, organization, password);
     }
 }
