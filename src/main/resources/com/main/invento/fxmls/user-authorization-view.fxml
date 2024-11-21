@@ -27,7 +27,7 @@
                               </Label>
                            </children>
                         </VBox>
-                        <Button mnemonicParsing="false" prefHeight="51.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-radius: 10em; -fx-border-color: #FFFFFF;" text="Sign in" textFill="WHITE" />
+                        <Button mnemonicParsing="false" onAction="#toLogin" prefHeight="51.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-radius: 10em; -fx-border-color: #FFFFFF;" text="Sign in" textFill="WHITE" />
                      </children>
                   </VBox>
                </left>
@@ -58,7 +58,6 @@
                         <VBox alignment="CENTER" prefHeight="97.0" prefWidth="491.0">
                            <children>
                               <Button mnemonicParsing="false" onAction="#signUp" prefHeight="47.0" prefWidth="112.0" style="-fx-background-color: transparent; -fx-border-color: #5a9d8d; -fx-border-radius: 10em;" text="Sign up" textFill="#5a9d8d" />
-                              <Label fx:id="warning" textFill="RED" />
                            </children>
                         </VBox>
                      </children>

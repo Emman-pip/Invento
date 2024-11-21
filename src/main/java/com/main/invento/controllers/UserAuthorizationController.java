@@ -1,12 +1,16 @@
 package com.main.invento.controllers;
 
+import com.main.invento.Main;
 import com.main.invento.binders.UserAuthorizationBinder;
 import com.main.invento.models.UserAuthorizationModel;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.security.NoSuchAlgorithmException;
 
@@ -36,5 +40,34 @@ public class UserAuthorizationController {
             warning.setText("Please recheck all the fields.");
             warning.setStyle("-fx-text-fill: red");
         }
+    }
+
+    @FXML
+    private TextField loginUsername;
+    @FXML
+    private PasswordField loginPassword;
+
+    public void toSignup() throws Exception{
+        Stage toClose = (Stage) this.loginUsername.getScene().getWindow();
+        toClose.close();
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/user-authorization-view.fxml"));
+        Scene scene =  new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setTitle("Signup");
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    public void toLogin() throws Exception {
+        Stage toClose = (Stage) this.confirmPassword.getScene().getWindow();
+        toClose.close();
+        Stage stage = new Stage();
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/login-view.fxml"));
+        Scene scene =  new Scene(loader.load());
+        stage.setScene(scene);
+        stage.setTitle("Login");
+        stage.setResizable(false);
+        stage.show();
     }
 }

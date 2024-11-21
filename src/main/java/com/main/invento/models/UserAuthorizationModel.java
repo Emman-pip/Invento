@@ -25,4 +25,5 @@ public class UserAuthorizationModel {
         Document newUser = new UserModel(username, email, organization, Encryptor.SHA256(password)).getUser();
         db.insertOne(newUser);
     }
+
 }
