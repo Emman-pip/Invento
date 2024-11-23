@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="529.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.UserAuthorizationController">
+<AnchorPane prefHeight="529.0" prefWidth="807.0" style="-fx-background-image: url(&quot;~/Programming/javaStuff/Invento/build/resources/main/com/main/invento/media/bg.png&quot;); -fx-background-repeat: no-repeat; -fx-background-size: cover;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.UserAuthorizationController">
    <children>
       <AnchorPane layoutX="36.0" layoutY="35.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5a9d8d;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <BorderPane layoutX="118.0" layoutY="-11.0" prefHeight="340.0" prefWidth="540.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <BorderPane layoutX="118.0" layoutY="-11.0" prefHeight="340.0" prefWidth="540.0" style="-fx-border-radius: 100px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <left>
-                  <VBox alignment="CENTER" prefHeight="469.0" prefWidth="256.0" style="-fx-background-color: #5a9d8d; -fx-scale-x: 1;" BorderPane.alignment="CENTER">
+                  <VBox alignment="CENTER" prefHeight="469.0" prefWidth="256.0" style="-fx-background-color: #5a9d8d; -fx-scale-x: 1; -fx-border-radius: 100px;" BorderPane.alignment="CENTER">
                      <children>
                         <VBox alignment="CENTER" prefHeight="233.0" prefWidth="202.0">
                            <children>

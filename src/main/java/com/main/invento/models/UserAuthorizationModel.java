@@ -4,6 +4,9 @@ import com.main.invento.utilityClasses.Database;
 import com.main.invento.utilityClasses.Encryptor;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.FindOneAndUpdateOptions;
+import com.mongodb.client.model.ReturnDocument;
+import com.mongodb.client.model.Updates;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -38,6 +41,20 @@ public class UserAuthorizationModel {
         }
         ObjectId res = (ObjectId) user.get("_id");
         return res;
+    }
+
+    public static void logLogin(String username){
+        MongoCollection<Document> db = new Database().getConnection("Users");
+        Bson filter = Filters.eq("username", username);
+
+        ObjectId id = new ObjectId();
+        Document logs = new Document("id", id);
+        logs.append("timestamp", id.getTimestamp());
+        logs.append("description", "logged in");
+        Bson update = Updates.push("logs", logs);
+//        FindOneAndUpdateOptions opts = new FindOneAndUpdateOptions().returnDocument(ReturnDocument.AFTER);
+        db.findOneAndUpdate(filter, update);
+
     }
 
 }

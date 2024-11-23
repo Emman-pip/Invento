@@ -72,6 +72,7 @@ public class UserAuthorizationController {
         } else {
             loginWarning.setText("welcome!");
             loginWarning.setStyle("-fx-text-fill: green");
+            UserAuthorizationModel.logLogin(this.loginUsername.getText());
             // pass id to a new window, the dashboard screen
         }
     }
