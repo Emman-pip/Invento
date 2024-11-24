@@ -3,8 +3,10 @@ package com.main.invento.controllers;
 import com.main.invento.Main;
 import com.main.invento.binders.UserAuthorizationBinder;
 import com.main.invento.models.UserAuthorizationModel;
+import com.main.invento.utilityClasses.Database;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -12,6 +14,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.bson.types.ObjectId;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 public class UserAuthorizationController {
@@ -64,7 +67,7 @@ public class UserAuthorizationController {
     private Label loginWarning;
 
     @FXML
-    private void login() throws NoSuchAlgorithmException {
+    private void login() throws NoSuchAlgorithmException, IOException {
         ObjectId id = UserAuthorizationBinder.bindLogin(this.loginUsername, this.loginPassword);
         if (id == null) {
             loginWarning.setText("Invalid credentials");
@@ -72,7 +75,24 @@ public class UserAuthorizationController {
         } else {
             loginWarning.setText("welcome!");
             loginWarning.setStyle("-fx-text-fill: green");
+
+
+            // for logging
             UserAuthorizationModel.logLogin(this.loginUsername.getText());
+
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/user-dashboard-view.fxml") );
+
+            Parent loaded = loader.load();
+            UserDashboardController dashboard = (UserDashboardController) loader.getController();
+            dashboard.setUsername(this.loginUsername.getText());
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loaded));
+            stage.setTitle("Dashboard");
+            stage.show();
+
+            Stage toClose = (Stage) this.loginPassword.getScene().getWindow();
+            toClose.close();
             // pass id to a new window, the dashboard screen
         }
     }

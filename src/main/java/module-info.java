@@ -7,6 +7,8 @@ module com.main.invento {
     requires org.mongodb.driver.sync.client;
     requires org.mongodb.bson;
     requires org.mongodb.driver.core;
+    requires org.kordamp.ikonli.core;
+    requires org.kordamp.ikonli.javafx;
 
     opens com.main.invento to javafx.fxml;
     opens com.main.invento.controllers to javafx.fxml;

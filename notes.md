@@ -3,7 +3,6 @@
     - [ ] finish UML
         - [ ] add usermodel to the UML
 
-
 # JSON structure
 
 
@@ -58,7 +57,7 @@
             "activity": xxxx,
             "sales": null,
             "timestamp": timestamp,
-            "salesPerUnit": null,
+            "unitsSold": ewan,
         }
     ]
 }
