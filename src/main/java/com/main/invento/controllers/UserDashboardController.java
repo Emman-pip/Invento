@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.bson.Document;
@@ -108,7 +109,15 @@ public class UserDashboardController {
     }
 
     @FXML
-    private void openShareInventory(){
+    private void openShareInventory() throws IOException {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/share-inventory-view.fxml"));
+        Parent loaded = loader.load();
+        ShareInventoryController controller = loader.getController();
+        controller.setUserData(this.userData);
+
+        Stage stage = new Stage();
+        stage.setScene(new Scene(loaded));
+        stage.show();
 
     }
 
