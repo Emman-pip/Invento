@@ -4,6 +4,7 @@ import com.main.invento.Main;
 import com.main.invento.utilityClasses.Database;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -139,6 +140,21 @@ public class UserDashboardController {
         Button updateBtn = new Button("Update");
         Label lbl = new Label((String)item.get("inventoryName"));
 
+        Button deleteBtn = new Button("Delete Inventory");
+
+        Iterable<ObjectId> owned = (Iterable<ObjectId>) new Database().getConnection("Users").find(new Document("username", username)).first().get("ownedInventories");
+        boolean isInside= false;
+        for (ObjectId inventory: owned){
+            if (inventory.equals(item.get("_id"))){
+                isInside = true;
+            }
+        }
+
+        if (!isInside){
+            updateBtn.setDisable(true);
+            deleteBtn.setDisable(true);
+        }
+
         container.setStyle("-fx-background-color: white; -fx-padding: 10px;");
         container.setCursor(Cursor.HAND);
         container.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -159,8 +175,19 @@ public class UserDashboardController {
             }
         });
 
+        deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                MongoCollection<Document> db = new Database().getConnection("Inventories");
+                Bson filter = Filters.eq("_id", item.get("_id"));
+                Bson update  = Updates.set("isDeleted", true);
+                db.findOneAndUpdate(filter, update);
+                loadOwnedInventories();
+            }
+        });
 
-        container.getChildren().addAll(lbl, updateBtn);
+
+        container.getChildren().addAll(lbl, updateBtn, deleteBtn);
         parent.getChildren().add(container);
     }
     @FXML
@@ -177,6 +204,19 @@ public class UserDashboardController {
 
 
     }
+
+    @FXML
+    private void logout() throws IOException{
+        Stage oldstage = (Stage)this.analytics.getScene().getWindow();
+        oldstage.close();
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/login-view.fxml"));
+        Scene scene =  new Scene(loader.load());
+        Stage  stage = new Stage();
+        stage.setScene(scene);
+        stage.setTitle("Signup");
+        stage.setResizable(false);
+        stage.show();
+    }
     // loadInventoryRanks(): void
     //
     // loadInventorySales(): void
@@ -184,5 +224,4 @@ public class UserDashboardController {
     // loadPieChart(): void
     //
     // loadAlerts(): void
-    // opeinventory(): void
 }
