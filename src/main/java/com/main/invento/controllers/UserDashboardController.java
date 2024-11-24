@@ -4,6 +4,7 @@ import com.main.invento.Main;
 import com.main.invento.utilityClasses.Database;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +12,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -91,22 +93,6 @@ public class UserDashboardController {
         this.ownedInventoriesContainer.getChildren().clear();
         listOfOwnedInventories.forEach(id -> {
             createInventoryDisplay(id, ownedInventoriesContainer);
-//            Bson filter = Filters.and(Filters.eq("_id", id), Filters.eq("isDeleted", false));
-//            Document item = (Document) inventoryData.find(filter).first();
-//            if (item == null){
-//                return;
-//            }
-//            HBox container = new HBox();
-//            container.getChildren().add(new Label((String)item.get("inventoryName")));
-//            container.setStyle("-fx-background-color: white; -fx-padding: 10px;");
-//            container.setCursor(Cursor.HAND);
-//            container.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//                @Override
-//                public void handle(MouseEvent mouseEvent) {
-//                    openInventory((ObjectId) item.get("_id"));
-//                }
-//            });
-//            ownedInventoriesContainer.getChildren().add(container);
         });
     }
 
@@ -127,6 +113,19 @@ public class UserDashboardController {
 
     }
 
+    private void updateInventoryBtn(Document item) throws IOException {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/update-inventory-view.fxml"));
+        Parent root = loader.load();
+        UpdateInventoryController controller = loader.getController();
+        controller.setUsername(username);
+        controller.setInventoryId((ObjectId) item.get("_id"));
+        controller.setParent(this);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
+        System.out.println("hwer");
+    }
+
     // create a method that will return a Hbox, with size and shit
     private void createInventoryDisplay(ObjectId id, Pane parent){
         MongoCollection inventoryData = new Database().getConnection("Inventories");
@@ -136,7 +135,10 @@ public class UserDashboardController {
             return;
         }
         HBox container = new HBox();
-        container.getChildren().add(new Label((String)item.get("inventoryName")));
+
+        Button updateBtn = new Button("Update");
+        Label lbl = new Label((String)item.get("inventoryName"));
+
         container.setStyle("-fx-background-color: white; -fx-padding: 10px;");
         container.setCursor(Cursor.HAND);
         container.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -145,6 +147,20 @@ public class UserDashboardController {
                 openInventory((ObjectId) item.get("_id"));
             }
         });
+
+        updateBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    updateInventoryBtn(item);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+
+        container.getChildren().addAll(lbl, updateBtn);
         parent.getChildren().add(container);
     }
     @FXML
@@ -161,12 +177,6 @@ public class UserDashboardController {
 
 
     }
-    // createNewInventory(): void
-    //
-    // LoadInventories(): void
-    //
-    // loadSharedInventories(): void
-    //
     // loadInventoryRanks(): void
     //
     // loadInventorySales(): void
@@ -175,6 +185,4 @@ public class UserDashboardController {
     //
     // loadAlerts(): void
     // opeinventory(): void
-    //
-    // openShareInventory():void
 }
