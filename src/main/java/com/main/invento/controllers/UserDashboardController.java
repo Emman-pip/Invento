@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
@@ -39,6 +40,7 @@ public class UserDashboardController {
         welcome.setText("Welcome, " + this.username);
         loadUserData();
         loadOwnedInventories();
+        loadSharedInventories();
     }
 
     private void loadUserData(){
@@ -55,8 +57,13 @@ public class UserDashboardController {
 
     @FXML
     private ImageView inventoryIcon;
+
+    @FXML
+    private ScrollPane sharedInventoriesParent;
     @FXML
     public void initialize(){
+        this.ownedInventoriesParent.setFitToWidth(true);
+        this.sharedInventoriesParent.setFitToWidth(true);
     }
 
     @FXML
@@ -81,26 +88,25 @@ public class UserDashboardController {
         MongoCollection<Document> db = new Database().getConnection("Users");
         Document user = db.find(new Document("username", this.username)).first();
         ArrayList<ObjectId> listOfOwnedInventories = (ArrayList<ObjectId>) user.get("ownedInventories");
-        MongoCollection inventoryData = new Database().getConnection("Inventories");
-        this.ownedInventoriesParent.setFitToWidth(true);
         this.ownedInventoriesContainer.getChildren().clear();
         listOfOwnedInventories.forEach(id -> {
-            Bson filter = Filters.and(Filters.eq("_id", id), Filters.eq("isDeleted", false));
-            Document item = (Document) inventoryData.find(filter).first();
-            if (item == null){
-                return;
-            }
-            HBox container = new HBox();
-            container.getChildren().add(new Label((String)item.get("inventoryName")));
-            container.setStyle("-fx-background-color: white; -fx-padding: 10px;");
-            container.setCursor(Cursor.HAND);
-            container.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    openInventory((ObjectId) item.get("_id"));
-                }
-            });
-            ownedInventoriesContainer.getChildren().add(container);
+            createInventoryDisplay(id, ownedInventoriesContainer);
+//            Bson filter = Filters.and(Filters.eq("_id", id), Filters.eq("isDeleted", false));
+//            Document item = (Document) inventoryData.find(filter).first();
+//            if (item == null){
+//                return;
+//            }
+//            HBox container = new HBox();
+//            container.getChildren().add(new Label((String)item.get("inventoryName")));
+//            container.setStyle("-fx-background-color: white; -fx-padding: 10px;");
+//            container.setCursor(Cursor.HAND);
+//            container.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//                @Override
+//                public void handle(MouseEvent mouseEvent) {
+//                    openInventory((ObjectId) item.get("_id"));
+//                }
+//            });
+//            ownedInventoriesContainer.getChildren().add(container);
         });
     }
 
@@ -113,7 +119,7 @@ public class UserDashboardController {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/share-inventory-view.fxml"));
         Parent loaded = loader.load();
         ShareInventoryController controller = loader.getController();
-        controller.setUserData(this.userData);
+        controller.setUserData(new Database().getConnection("Users").find(new Document("username", username)).first());
 
         Stage stage = new Stage();
         stage.setScene(new Scene(loaded));
@@ -121,8 +127,40 @@ public class UserDashboardController {
 
     }
 
-
+    // create a method that will return a Hbox, with size and shit
+    private void createInventoryDisplay(ObjectId id, Pane parent){
+        MongoCollection inventoryData = new Database().getConnection("Inventories");
+        Bson filter = Filters.and(Filters.eq("_id", id), Filters.eq("isDeleted", false));
+        Document item = (Document) inventoryData.find(filter).first();
+        if (item == null){
+            return;
+        }
+        HBox container = new HBox();
+        container.getChildren().add(new Label((String)item.get("inventoryName")));
+        container.setStyle("-fx-background-color: white; -fx-padding: 10px;");
+        container.setCursor(Cursor.HAND);
+        container.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                openInventory((ObjectId) item.get("_id"));
+            }
+        });
+        parent.getChildren().add(container);
+    }
+    @FXML
+    private VBox sharedInventoriesContainer;
     // loadSharedInventories
+    private void loadSharedInventories(){
+        MongoCollection<Document> db = new Database().getConnection("Inventories");
+        Iterable<Document> data = db.find(new Document("sharedTo", username));
+        data.forEach(
+                inventory -> {
+                    createInventoryDisplay((ObjectId) inventory.get("_id"), sharedInventoriesContainer);
+                }
+        );
+
+
+    }
     // createNewInventory(): void
     //
     // LoadInventories(): void

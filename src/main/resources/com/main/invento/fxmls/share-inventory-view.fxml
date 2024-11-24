@@ -20,6 +20,7 @@
                   <Font size="28.0" />
                </font>
             </Label>
+            <Label fx:id="currentInventoryId" disable="true" />
             <AnchorPane prefHeight="704.0" prefWidth="847.0">
                <children>
                   <HBox prefHeight="557.0" prefWidth="847.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -48,8 +49,8 @@
                                        <children>
                                           <HBox alignment="TOP_CENTER">
                                              <children>
-                                                <TextField />
-                                                <Button mnemonicParsing="false" text="add" />
+                                                <TextField fx:id="username" promptText="username" />
+                                                <Button mnemonicParsing="false" onAction="#addUser" text="add user" />
                                              </children>
                                           </HBox>
                                           <VBox fx:id="usersWithAccessContainer" prefHeight="387.0" prefWidth="237.0" />
