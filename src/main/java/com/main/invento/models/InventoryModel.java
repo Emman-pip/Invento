@@ -18,6 +18,7 @@ public class InventoryModel {
     public InventoryModel(String inventoryName){
         inventory.put("_id", inventoryId);
         inventory.put("inventoryName", inventoryName);
+        inventory.put("isDeleted", false);
         inventory.put("sharedTo", Arrays.asList());
         inventory.put("items", Arrays.asList());
     }

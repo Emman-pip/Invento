@@ -6,11 +6,17 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+
+import java.util.ArrayList;
 
 public class CreateInventoryController {
     private String username;
@@ -41,5 +47,11 @@ public class CreateInventoryController {
         db.insertOne(newInventory.getInventory());
         Stage current = (Stage)inventoryName.getScene().getWindow();
         current.close();
+        this.parent.loadOwnedInventories();
+    }
+
+    private UserDashboardController parent;
+    public void setParent(UserDashboardController root){
+        this.parent = root;
     }
 }
