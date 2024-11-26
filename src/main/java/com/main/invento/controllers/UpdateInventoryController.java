@@ -99,12 +99,19 @@ public class UpdateInventoryController {
 
     @FXML
     private void addColumn() {
+        if (newCol.getText().equals("")){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Can't set an empty named column");
+            alert.showAndWait();
+            return;
+        }
         String columnName = newCol.getText();
         MongoCollection<Document> db = new Database().getConnection("Inventories");
         Bson filter = Filters.eq("_id", this.inventoryId);
         Bson update = Updates.push("columns", columnName);
         InventoryLogger.addColumns(this.username, this.inventoryId, columnName);
         db.findOneAndUpdate(filter, update);
+        newCol.setText("");
         loadColumns();
     }
 
