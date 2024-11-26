@@ -32,21 +32,20 @@
     "inventoryName": "inventory name",
     "ownerID": ownerId,
     "sharedTo": [usersIds of users...],
+    "columns": ["itemName", "units", "description", "capitalPerUnit"]
     "items": {
         {
             "itemId": objectId(),
             "itemName": "name",
             "units": 0,
             "description": null,
-            "pricePerUnit": 0.00,
-            "standardProfitPerUnit": 0.1,
+            "capiterPer": 0, 
             "dateAdded": timestamp,
             "dataUpdated": timestamp,
             "isDeleted": false,
             "history": {
                 { 
-                    "timestamp": timestamp, "pricePerUnit": 0.00, 
-                    "standardProfitPerUnit": 0.00
+                    "timestamp": timestamp, "capitalPerUnit": 0.00, 
                 }
             }
         }
@@ -54,7 +53,8 @@
     "logs": [
         {
             "itemId": xxxx,
-            "activity": xxxx,
+            "activity": xxxx, // either be addColumns, deleteColumns, createInventory, deleteInventory, accessedInventory, 
+            "username": username;
             "sales": null,
             "timestamp": timestamp,
             "unitsSold": ewan,

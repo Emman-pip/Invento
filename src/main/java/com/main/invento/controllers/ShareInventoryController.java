@@ -1,6 +1,7 @@
 package com.main.invento.controllers;
 
 import com.main.invento.utilityClasses.Database;
+import com.main.invento.utilityClasses.InventoryLogger;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
@@ -84,6 +85,7 @@ public class ShareInventoryController {
         alert.showAndWait();
         if (alert.getResult() == ButtonType.OK){
             inventoryDB.findOneAndUpdate(filter, update);
+            InventoryLogger.sharedInventory((String)userData.get("username"), this.currentInventoryId, username);
         }
     }
 
@@ -95,6 +97,7 @@ public class ShareInventoryController {
         Bson update = Updates.pull("sharedTo", username);
         Iterable<String> sharedTo= (Iterable<String>) inventoryDB.find(filter).first().get("sharedTo");
         inventoryDB.findOneAndUpdate(filter, update);
+        InventoryLogger.unsharedInventory((String)this.userData.get("username"), inventoryId, username);
         loadUsersWithAccess(inventoryId);
     }
 
@@ -128,27 +131,29 @@ public class ShareInventoryController {
         Iterable<ObjectId> owned = (Iterable<ObjectId>) userData.get("ownedInventories");
         owned.forEach(id -> {
             Document data =new Database().getConnection("Inventories").find(new Document("_id", id)).first();
-            HBox container = new HBox();
-            container.getChildren().add(new Label((String) data.get("inventoryName")));
+            if (!(Boolean)data.get("isDeleted")){
+                HBox container = new HBox();
+                container.getChildren().add(new Label((String) data.get("inventoryName")));
 
-            Button showBtn = new Button("Show users");
-            container.getChildren().add(showBtn);
-            // connect to a list view in the view
+                Button showBtn = new Button("Show users");
+                container.getChildren().add(showBtn);
+                // connect to a list view in the view
 
-            // load the users with access
-            showBtn.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    loadUsersWithAccess(id);
-                }
-            });
+                // load the users with access
+                showBtn.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        loadUsersWithAccess(id);
+                    }
+                });
 
-            container.setPadding(new Insets(5, 5, 5, 5));
-            container.setSpacing(30);
-            showBtn.setCursor(Cursor.HAND);
+                container.setPadding(new Insets(5, 5, 5, 5));
+                container.setSpacing(30);
+                showBtn.setCursor(Cursor.HAND);
 
 
-            toShareContainer.getChildren().add(container);
+                toShareContainer.getChildren().add(container);
+            }
         });
     }
 

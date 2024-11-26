@@ -15,16 +15,18 @@ public class InventoryModel {
 
     private Document inventory = new Document();
 
-    public InventoryModel(String inventoryName){
+    public InventoryModel(String inventoryName, String username){
         inventory.put("_id", inventoryId);
         inventory.put("inventoryName", inventoryName);
+        inventory.put("username", username);
         inventory.put("isDeleted", false);
         inventory.put("sharedTo", Arrays.asList());
         inventory.put("items", Arrays.asList());
+        inventory.put("columns", Arrays.asList("itemName", "units", "description", "capitalPerUnit"));
     }
 
     public void initializeModel(){
-        inventory.put("logs", Arrays.asList(new InventoryLogsModel(null, "account creation", 0, 0).getInventoryLog()));
+        inventory.put("logs", Arrays.asList());
     }
 
     public Document getInventory(){

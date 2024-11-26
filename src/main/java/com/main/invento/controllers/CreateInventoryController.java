@@ -2,6 +2,7 @@ package com.main.invento.controllers;
 
 import com.main.invento.models.InventoryModel;
 import com.main.invento.utilityClasses.Database;
+import com.main.invento.utilityClasses.InventoryLogger;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
@@ -38,13 +39,16 @@ public class CreateInventoryController {
     @FXML
     public void createNewInventory(){
         MongoCollection<Document> db = new Database().getConnection("Inventories");
-        InventoryModel newInventory = new InventoryModel(inventoryName.getText());
+        InventoryModel newInventory = new InventoryModel(inventoryName.getText(), username);
 
         // update the owned inventories of the users
         addToOwnedInventories(newInventory.getInventoryId());
 
         newInventory.initializeModel();
         db.insertOne(newInventory.getInventory());
+        // for logging
+        InventoryLogger.createdInventory(username, newInventory.getInventoryId());
+
         Stage current = (Stage)inventoryName.getScene().getWindow();
         current.close();
         this.parent.loadOwnedInventories();

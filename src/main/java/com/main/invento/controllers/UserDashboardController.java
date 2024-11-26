@@ -2,6 +2,7 @@ package com.main.invento.controllers;
 
 import com.main.invento.Main;
 import com.main.invento.utilityClasses.Database;
+import com.main.invento.utilityClasses.InventoryLogger;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
@@ -97,8 +98,20 @@ public class UserDashboardController {
         });
     }
 
-    private void openInventory(ObjectId id){
-        System.out.println("inventory will open now " + id);
+    private void openInventory(ObjectId id) throws IOException {
+//        System.out.println(Main.class.getResource("/com/main/invento/fxmls/inventory-page-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/com/main/invento/fxmls/inventory-page-view.fxml"));
+//        Stage stage =  new Stage();
+//        stage.setScene(new Scene(loader.load()));
+//        stage.show();
+        Parent root = loader.load();
+        InventoryPageController controller = (InventoryPageController) loader.getController();
+        controller.setInventoryData(new Database().getConnection("Inventories").find(new Document("_id", id)).first());
+        Stage stage =  new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
+        Stage oldstage = (Stage)analytics.getScene().getWindow();
+        oldstage.close();
     }
 
     @FXML
@@ -160,7 +173,12 @@ public class UserDashboardController {
         container.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                openInventory((ObjectId) item.get("_id"));
+                try {
+                    openInventory((ObjectId) item.get("_id"));
+                    InventoryLogger.accessedInventory(username, (ObjectId) item.get("_id"));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
@@ -182,6 +200,7 @@ public class UserDashboardController {
                 Bson filter = Filters.eq("_id", item.get("_id"));
                 Bson update  = Updates.set("isDeleted", true);
                 db.findOneAndUpdate(filter, update);
+                InventoryLogger.deleteInventory(username, (ObjectId) item.get("id"));
                 loadOwnedInventories();
             }
         });
