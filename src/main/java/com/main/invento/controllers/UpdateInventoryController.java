@@ -23,7 +23,6 @@ public class UpdateInventoryController {
 
     public void initialize() {
         columnsScrollPane.setFitToWidth(true);
-        columnsContainer.setExpanded(false);
     }
 
     public void setParent(UserDashboardController parent) {
@@ -120,7 +119,7 @@ public class UpdateInventoryController {
         MongoCollection<Document> db = new Database().getConnection("Inventories");
         this.inventoryData = new Database().getConnection("Inventories").find(new Document("_id", inventoryId)).first();
         Iterable<String> cols = (Iterable<String>) inventoryData.get("columns");
-        String[] defaultValues = {"itemName", "units", "description", "capitalPerUnit"};
+        String[] defaultValues = {"itemName", "units", "description", "capitalPerUnit", "category"};
 
         for (String col : cols) {
             Label lbl = new Label(col);

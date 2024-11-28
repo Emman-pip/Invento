@@ -22,7 +22,7 @@ public class InventoryModel {
         inventory.put("isDeleted", false);
         inventory.put("sharedTo", Arrays.asList());
         inventory.put("items", Arrays.asList());
-        inventory.put("columns", Arrays.asList("itemName", "units", "description", "capitalPerUnit"));
+        inventory.put("columns", Arrays.asList("itemName", "units", "description", "capitalPerUnit", "category"));
     }
 
     public void initializeModel(){
