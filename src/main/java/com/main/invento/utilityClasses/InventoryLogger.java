@@ -68,4 +68,12 @@ public class InventoryLogger {
         Bson update = Updates.push("logs", log);
         db.findOneAndUpdate(filter, update);
     }
+    public static void addItem(String username, ObjectId inventoryId, ObjectId itemId, String itemName){
+        Document log = new InventoryLogsModel(itemId, "added item " + itemName, 0, 0).getInventoryLog();
+        log.put("username", username);
+        MongoCollection<Document> db = new Database().getConnection("Inventories");
+        Bson filter = Filters.eq("_id", inventoryId);
+        Bson update = Updates.push("logs", log);
+        db.findOneAndUpdate(filter, update);
+    }
 }

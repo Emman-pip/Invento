@@ -106,12 +106,14 @@ public class UserDashboardController {
 //        stage.show();
         Parent root = loader.load();
         InventoryPageController controller = (InventoryPageController) loader.getController();
+        controller.setUsername(this.username);
         controller.setInventoryData(new Database().getConnection("Inventories").find(new Document("_id", id)).first());
         Stage stage =  new Stage();
         stage.setScene(new Scene(root));
         stage.show();
-        Stage oldstage = (Stage)analytics.getScene().getWindow();
-        oldstage.close();
+        // do not close the window here...
+//        Stage oldstage = (Stage)analytics.getScene().getWindow();
+//        oldstage.close();
     }
 
     @FXML
