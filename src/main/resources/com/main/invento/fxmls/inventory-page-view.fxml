@@ -33,20 +33,27 @@
             <center>
                 <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                     <children>
-                                <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="97.0">
-                                    <children>
-                                        <VBox prefHeight="55.0" prefWidth="458.0">
-                                            <children>
-                                                <Label fx:id="inventoryName" style="-fx-font-weight: bold;" text="Inventory: XXXXX">
-                                                    <font>
-                                                        <Font size="26.0" />
-                                                    </font>
-                                                </Label>
-                                                <Label text="CRUD operations here" />
-                                            </children>
-                                        </VBox>
-                                    </children>
-                                </HBox>
+                  <BorderPane>
+                     <center>
+                                      <HBox alignment="CENTER_LEFT" fillHeight="false" prefHeight="97.0">
+                                          <children>
+                                              <VBox prefHeight="55.0" prefWidth="458.0">
+                                                  <children>
+                                                      <Label fx:id="inventoryName" style="-fx-font-weight: bold;" text="Inventory: XXXXX">
+                                                          <font>
+                                                              <Font size="26.0" />
+                                                          </font>
+                                                      </Label>
+                                                      <Label text="CRUD operations here" />
+                                                  </children>
+                                              </VBox>
+                                          </children>
+                                      </HBox>
+                     </center>
+                     <right>
+                        <Button mnemonicParsing="false" onAction="#openManageItems" text="Manage Items" BorderPane.alignment="CENTER" />
+                     </right>
+                  </BorderPane>
                   <BorderPane prefHeight="798.0" prefWidth="1099.0">
                      <center>
                         <ScrollPane fx:id="itemsParentContainer" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">

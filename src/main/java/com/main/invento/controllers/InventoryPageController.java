@@ -135,20 +135,35 @@ public class InventoryPageController {
             System.out.println();
         }
     }
-// TODO deleteItem
+    // REPORTS (sales)
+    //    TODO report sales
+    //    TODO report losses
+    // Update stock
+    //    TODO addNewStock
+    //    TODO update category
+    //    TODO change capital
+    //    TODO correct records (optional)
+    @FXML
+    private void openManageItems() throws IOException {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/item-operations-view.fxml"));
+        Stage stage =  new Stage();
+        stage.setScene(new Scene(loader.load()));
+        stage.show();
+    }
+
+// DONE deleteItem
+// TODO   add validators (and change the shitty percentage) - to add item
 }
 
-// TODO HERE
-// TODO addItem - add validators (and change the shitty percentage)
 // DONE displayItem
-// TODO deleteItem
 // TODO item operations
 //    TODO report sales
 //    TODO report losses
-//    TODO correct records
-//    TODO change capital
 //    TODO addNewStock
 //    TODO update category
+//    TODO change capital
+
+//    TODO correct records (optional)
 
 // after this, can add the analytics
 // then after that, do the generate reports
