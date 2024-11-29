@@ -24,6 +24,11 @@ public class AddItemController {
     private ObjectId inventoryId;
     private Document inventoryData;
     private String username;
+    private VBox parent;
+
+    public void setParent(VBox parent) {
+        this.parent = parent;
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -74,6 +79,9 @@ public class AddItemController {
                 updateItems(newItem);
                 Stage oldStage = (Stage) submit.getScene().getWindow();
                 oldStage.close();
+                // VBox parent, Document inventoryData
+                Document inventoryData = new Database().getConnection("Inventories").find(new Document("_id", inventoryId)).first();
+                InventoryPageController.loadItems(parent, inventoryData);
             }
         });
         columnsContainer.getChildren().add(submit);

@@ -1,19 +1,25 @@
 package com.main.invento.controllers;
 
 import com.main.invento.Main;
+import com.main.invento.utilityClasses.Database;
+import com.main.invento.utilityClasses.InventoryLogger;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import java.io.IOException;
@@ -55,16 +61,35 @@ public class InventoryPageController {
         Parent root = loader.load();
         AddItemController controller = loader.getController();
         controller.setInventoryId((ObjectId) this.inventoryData.get("_id"));
+        controller.setParent(itemsParentVbox);
         controller.setUsername(this.username);
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.show();
     };
 
+
+    public static  boolean deleteItem(ObjectId  itemId, ObjectId inventoryId){
+        // search how to delete items in an array in mongo db(by id)
+        Bson filter = Filters.eq("_id", inventoryId);
+        Bson recordPull = Filters.eq("itemId", itemId);
+        Bson update = Updates.pull("items", recordPull);
+
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setContentText("This action will permamnently delete the item");
+        confirmationAlert.showAndWait();
+        if (confirmationAlert.getResult() != ButtonType.OK){
+            return false;
+        }
+        MongoCollection<Document> db = new Database().getConnection("Inventories");
+        db.findOneAndUpdate(filter, update);
+        return true;
+
+    }
     @FXML
     private VBox itemsParentVbox;
 
-    private static void loadItems(VBox parent, Document inventoryData){
+    public static void loadItems(VBox parent, Document inventoryData){
         Iterable<String> columns = (Iterable<String>) inventoryData.get("columns");
         Iterable<Document> items = (Iterable<Document>) inventoryData.get("items");
         String[] defaultValues = {"itemName",  "categories"};
@@ -85,6 +110,22 @@ public class InventoryPageController {
                 }
                 informationContainer.getChildren().add(new Label(column + ": " + item.get(column)));
             }
+            Button deleteBtn = new Button("Delete item");
+            informationContainer.getChildren().add(deleteBtn);
+            deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent actionEvent) {
+                    // ObjectId  itemId, ObjectId inventoryId, String username
+                    boolean res  = InventoryPageController.deleteItem((ObjectId) item.get("itemId"), (ObjectId) inventoryData.get("_id"));
+                    // String username, ObjectId inventoryId, ObjectId itemId, String itemName
+                    if (res){
+                        InventoryLogger.deleteItem(null, (ObjectId) inventoryData.get("_id"), (ObjectId) item.get("itemId"), (String) item.get("itemName"));
+                        Document newData = new Database().getConnection("Inventories").find(new Document("_id", (ObjectId) inventoryData.get("_id"))).first();
+                        InventoryPageController.loadItems(parent, newData);
+                    }
+
+                }
+            });
             TitledPane pane = new TitledPane();
             pane.setText("Information");
             pane.setContent(informationContainer);
@@ -94,6 +135,7 @@ public class InventoryPageController {
             System.out.println();
         }
     }
+// TODO deleteItem
 }
 
 // TODO HERE

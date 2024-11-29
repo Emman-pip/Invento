@@ -76,4 +76,32 @@ public class InventoryLogger {
         Bson update = Updates.push("logs", log);
         db.findOneAndUpdate(filter, update);
     }
+    // TODO deleteItem
+    public static void deleteItem(String username, ObjectId inventoryId, ObjectId itemId, String itemName){
+        Document log = new InventoryLogsModel(itemId, "deleted item " + itemName, 0, 0).getInventoryLog();
+        log.put("username", username);
+        MongoCollection<Document> db = new Database().getConnection("Inventories");
+        Bson filter = Filters.eq("_id", inventoryId);
+        Bson update = Updates.push("logs", log);
+        db.findOneAndUpdate(filter, update);
+    }
+    // TODO item operations
+    //    TODO report sales
+    //    TODO report losses
+
+    //first two is priority
+    // report type can be sales, losses,
+    public static void report(String reportType, String username, ObjectId inventoryId, ObjectId itemId, String itemName, int sales, int unitsSold){
+        Document log = new InventoryLogsModel(itemId, reportType + itemName, sales, unitsSold).getInventoryLog();
+        log.put("username", username);
+        MongoCollection<Document> db = new Database().getConnection("Inventories");
+        Bson filter = Filters.eq("_id", inventoryId);
+        Bson update = Updates.push("logs", log);
+        db.findOneAndUpdate(filter, update);
+    }
+    //   T
+    //    TODO correct records
+    //    TODO change capital
+    //    TODO addNewStock
+    //    TODO update category
 }
