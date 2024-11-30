@@ -58,7 +58,6 @@
                                                 <VBox alignment="CENTER" prefHeight="52.0" prefWidth="301.0" spacing="5.0">
                                                    <children>
                                                       <Button mnemonicParsing="false" onAction="#createNewInventory" text="Create New Inventory" />
-                                                      <Button mnemonicParsing="false" onAction="#openShareInventory" prefHeight="26.0" prefWidth="154.0" text="Share Inventories" />
                                                       <Button mnemonicParsing="false" onAction="#logout" prefHeight="26.0" prefWidth="154.0" text="Logout" />
                                                    </children>
                                                 </VBox>

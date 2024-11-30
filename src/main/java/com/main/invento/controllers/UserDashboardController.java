@@ -14,9 +14,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -29,6 +27,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import java.io.IOException;
+import java.nio.channels.AlreadyBoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -117,12 +116,11 @@ public class UserDashboardController {
     }
 
     @FXML
-    private void openShareInventory() throws IOException {
+    private void openShareInventory(ObjectId inventoryId) throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/share-inventory-view.fxml"));
         Parent loaded = loader.load();
         ShareInventoryController controller = loader.getController();
-        controller.setUserData(new Database().getConnection("Users").find(new Document("username", username)).first());
-
+        controller.setInventoryId(inventoryId);
         Stage stage = new Stage();
         stage.setScene(new Scene(loaded));
         stage.show();
@@ -157,6 +155,8 @@ public class UserDashboardController {
 
         Button deleteBtn = new Button("Delete Inventory");
 
+        Button shareBtn = new Button("Share");
+
         Iterable<ObjectId> owned = (Iterable<ObjectId>) new Database().getConnection("Users").find(new Document("username", username)).first().get("ownedInventories");
         boolean isInside= false;
         for (ObjectId inventory: owned){
@@ -164,14 +164,20 @@ public class UserDashboardController {
                 isInside = true;
             }
         }
-
-        if (!isInside){
-            updateBtn.setDisable(true);
-            deleteBtn.setDisable(true);
-        }
-
         container.setStyle("-fx-background-color: white; -fx-padding: 10px;");
         container.setCursor(Cursor.HAND);
+
+        shareBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                try {
+                    openShareInventory(id);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
         container.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -201,6 +207,15 @@ public class UserDashboardController {
                 MongoCollection<Document> db = new Database().getConnection("Inventories");
                 Bson filter = Filters.eq("_id", item.get("_id"));
                 Bson update  = Updates.set("isDeleted", true);
+
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("this will delete the chosen inventory, are you sure?");
+                alert.showAndWait();
+
+                if (alert.getResult() != ButtonType.OK){
+                    return;
+                }
+
                 db.findOneAndUpdate(filter, update);
                 InventoryLogger.deleteInventory(username, (ObjectId) item.get("id"));
                 loadOwnedInventories();
@@ -208,7 +223,9 @@ public class UserDashboardController {
         });
 
 
-        container.getChildren().addAll(lbl, updateBtn, deleteBtn);
+        if (isInside){
+            container.getChildren().addAll(lbl, updateBtn, shareBtn, deleteBtn);
+        }
         parent.getChildren().add(container);
     }
     @FXML

@@ -6,68 +6,56 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="567.0" prefWidth="960.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.ShareInventoryController">
+<AnchorPane prefHeight="523.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.ShareInventoryController">
    <children>
-      <VBox layoutX="366.0" layoutY="253.0" prefHeight="567.0" prefWidth="932.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label text="Owned Inventories">
-               <font>
-                  <Font size="28.0" />
-               </font>
-            </Label>
-            <Label fx:id="currentInventoryId" disable="true" />
-            <AnchorPane prefHeight="704.0" prefWidth="847.0">
+      <BorderPane layoutX="58.0" layoutY="146.0" prefHeight="567.0" prefWidth="960.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <VBox prefHeight="141.0" prefWidth="585.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox prefHeight="557.0" prefWidth="847.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <AnchorPane prefHeight="558.0" prefWidth="847.0">
-                           <children>
-                              <ScrollPane fx:id="scrollpane" layoutX="6.0" layoutY="20.0" prefHeight="220.0" prefWidth="847.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <VBox fx:id="toShareContainer" prefHeight="481.0" prefWidth="827.0" spacing="10.0">
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </padding>
-                                    </VBox>
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="507.0" prefWidth="463.0">
-                           <children>
-                              <ScrollPane fx:id="scrollpane1" layoutX="6.0" layoutY="20.0" prefHeight="507.0" prefWidth="232.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <VBox fx:id="toShareContainer1" alignment="TOP_CENTER" prefHeight="660.0" prefWidth="257.0" spacing="10.0">
-                                       <padding>
-                                          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                       </padding>
-                                       <children>
-                                          <HBox alignment="TOP_CENTER">
-                                             <children>
-                                                <TextField fx:id="username" promptText="username" />
-                                                <Button mnemonicParsing="false" onAction="#addUser" text="add user" />
-                                             </children>
-                                          </HBox>
-                                          <VBox fx:id="usersWithAccessContainer" prefHeight="387.0" prefWidth="237.0" />
-                                       </children>
-                                    </VBox>
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </HBox>
+                  <Label fx:id="inventoryName" text="Inventory Name">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <Label text="Inventory Sharing" />
+                  <BorderPane prefHeight="66.0" prefWidth="565.0">
+                     <right>
+                        <Button mnemonicParsing="false" onAction="#addUser" text="Add" BorderPane.alignment="CENTER" />
+                     </right>
+                     <center>
+                        <TextField fx:id="newUser" BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+                  <Label text="Collaborations">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                </children>
-            </AnchorPane>
-         </children>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </VBox>
+            </VBox>
+         </top>
+         <center>
+            <ScrollPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="352.0" prefWidth="553.0">
+                     <children>
+                        <VBox fx:id="collaborations" layoutX="122.0" layoutY="21.0" prefHeight="352.0" prefWidth="553.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
+         </center>
+      </BorderPane>
    </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
 </AnchorPane>
