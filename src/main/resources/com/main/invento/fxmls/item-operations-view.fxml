@@ -25,7 +25,8 @@
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label text="inventoryName here" />
+                  <Label fx:id="inventoryName" text="inventoryName here" />
+                  <Label fx:id="itemName" />
                </children>
             </VBox>
          </top>
@@ -40,21 +41,21 @@
                                  <children>
                                     <VBox>
                                        <children>
-                                          <TextField promptText="search item here" />
-                                          <TitledPane>
+                                          <TextField fx:id="searchInp" onKeyReleased="#searchAction" promptText="search item here" />
+                                          <TitledPane fx:id="searchResults">
                                              <content>
-                                                <ScrollPane>
+                                                <ScrollPane fx:id="searchResultsScroll">
                                                    <content>
-                                                      <VBox prefHeight="125.0" prefWidth="612.0" />
+                                                      <VBox fx:id="searchResultsParent" prefHeight="125.0" prefWidth="575.0" />
                                                    </content>
                                                 </ScrollPane>
                                              </content>
                                           </TitledPane>
                                        </children>
                                     </VBox>
-                                    <TextField promptText="units sold" />
-                                    <TextField promptText="total sales" />
-                                    <Button mnemonicParsing="false" text="Report Sale" />
+                                    <TextField fx:id="unitsSold" promptText="units sold" />
+                                    <TextField fx:id="totalSales" promptText="total sales" />
+                                    <Button mnemonicParsing="false" onAction="#reportSale" text="Report Sale" />
                                  </children>
                                  <padding>
                                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

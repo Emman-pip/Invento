@@ -91,9 +91,8 @@ public class InventoryLogger {
 
     //first two is priority
     // report type can be sales, losses,
-    public static void report(String reportType, String username, ObjectId inventoryId, ObjectId itemId, String itemName, int sales, int unitsSold){
-        Document log = new InventoryLogsModel(itemId, reportType + itemName, sales, unitsSold).getInventoryLog();
-        log.put("username", username);
+    public static void report(String reportType, ObjectId inventoryId, ObjectId itemId, String itemName, int sales, int unitsSold){
+        Document log = new InventoryLogsModel(itemId, reportType + " " +  itemName, sales, unitsSold).getInventoryLog();
         MongoCollection<Document> db = new Database().getConnection("Inventories");
         Bson filter = Filters.eq("_id", inventoryId);
         Bson update = Updates.push("logs", log);

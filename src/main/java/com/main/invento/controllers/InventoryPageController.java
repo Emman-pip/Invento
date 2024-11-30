@@ -14,7 +14,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -147,7 +146,11 @@ public class InventoryPageController {
     private void openManageItems() throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/item-operations-view.fxml"));
         Stage stage =  new Stage();
-        stage.setScene(new Scene(loader.load()));
+        Parent root = loader.load();
+        ItemOperationsController controller = loader.getController();
+        controller.setInventoryData( inventoryData);
+        controller.setItemsParentVbox(itemsParentVbox);
+        stage.setScene(new Scene(root));
         stage.show();
     }
 

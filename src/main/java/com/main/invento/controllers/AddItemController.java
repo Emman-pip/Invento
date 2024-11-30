@@ -51,6 +51,14 @@ public class AddItemController {
 
     @FXML
     private VBox columnsContainer;
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+    }
 
     private void loadForm(){
         ArrayList<String> columns = (ArrayList<String>) this.inventoryData.get("columns");
@@ -73,7 +81,12 @@ public class AddItemController {
                 newItem.put("itemId", new ObjectId());
                 // try collating the data into a document then submitting it after (if valid)
                 for (int i = 0; i < textfields.size(); i++){
-                    newItem.put(columns.get(i), textfields.get(i).getText());
+                    String str = textfields.get(i).getText();
+                    if (isNumeric(str)){
+                        newItem.put(columns.get(i), Integer.parseInt(str));
+                        continue;
+                    }
+                    newItem.put(columns.get(i), str);
                 }
                 // UPDATE HERE
                 updateItems(newItem);
