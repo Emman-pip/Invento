@@ -158,7 +158,7 @@ public class ItemOperationsController {
         //String reportType, ObjectId inventoryId, ObjectId itemId, String itemName, int sales, int unitsSold
         db.updateOne(filter, update);
         // log it to the inventory log
-        InventoryLogger.report("sales", (ObjectId) this.InventoryData.get("_id"), (ObjectId) itemChosen.get("_id"), (String) itemChosen.get("itemName"), sales, soldUnits);
+        InventoryLogger.report("sales", (ObjectId) this.InventoryData.get("_id"), (ObjectId) itemChosen.get("itemId"), (String) itemChosen.get("itemName"), sales, soldUnits);
         selectItem(null);
         unitsSold.setText("");
         totalSales.setText("");
@@ -190,7 +190,7 @@ public class ItemOperationsController {
 
         ArrayList<TextField> txts = new ArrayList<>();
         for (String col : cols) {
-            if (count == 1 || count ==3){
+            if (count == 1) {// || count ==3){
                 count++;
                 continue;
             }
@@ -216,7 +216,11 @@ public class ItemOperationsController {
                 MongoCollection<Document> db = new Database().getConnection("Inventories");
 
                 for (TextField txt : txts) {
-                    Bson update = Updates.set("items.$." + txt.getId(), txt.getText());
+                    String value = txt.getText();
+                    Bson update = Updates.set("items.$." + txt.getId(), value);
+                    if (AddItemController.isNumeric(value)){
+                        update  = Updates.set("items.$." + txt.getId(), Integer.parseInt(value));
+                    }
                     db.findOneAndUpdate(filter, update);
                 }
 
@@ -226,8 +230,5 @@ public class ItemOperationsController {
                 reloadInventoryPage();
             }
         });
-
-
     }
-
 }
