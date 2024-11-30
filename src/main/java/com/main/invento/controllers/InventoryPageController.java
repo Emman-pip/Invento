@@ -160,8 +160,6 @@ public class InventoryPageController {
 
 // DONE displayItem
 // TODO item operations
-//    TODO report sales
-//    TODO report losses
 //    TODO addNewStock
 //    TODO update category
 //    TODO change capital

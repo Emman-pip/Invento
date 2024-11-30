@@ -5,8 +5,10 @@ import com.main.invento.utilityClasses.InventoryLogger;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -15,6 +17,7 @@ import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.main.invento.controllers.InventoryPageController.loadItems;
@@ -26,6 +29,7 @@ public class ItemOperationsController {
     public void setInventoryData(Document inventoryData) {
         this.InventoryData = inventoryData;
         this.inventoryName.setText((String) new Database().getConnection("Inventories").find(new Document("_id", inventoryData.get("_id"))).first().get("inventoryName"));
+        loadUpdateTxts();
     }
 
     private Document itemChosen;
@@ -48,6 +52,8 @@ public class ItemOperationsController {
     @FXML
     private TitledPane  searchResults;
     @FXML
+    private TitledPane  searchResults1;
+    @FXML
     private ScrollPane searchResultsScroll;
     @FXML
     private TextField searchInp;
@@ -56,6 +62,7 @@ public class ItemOperationsController {
 
     public void initialize(){
         searchResults.setExpanded(false);
+        searchResults1.setExpanded(false);
         searchResultsScroll.setFitToWidth(true);
 
     }
@@ -67,7 +74,7 @@ public class ItemOperationsController {
         } else{
             itemName.setText("no selected");
         }
-        searchResults.setExpanded(false);
+        loadUpdateTxts();
     }
 
     // TODO search
@@ -82,22 +89,46 @@ public class ItemOperationsController {
 //        Bson filter = Filters.eq("itemName", new Document("$regex", ".*"+searchInp.getText()+".* "));
 //        Iterable<Document> results = (Iterable<Document>) db.find(filter);
         for (Document result : results) {
-            String resString = (String) result.get("itemName");
-            if (resString.contains(searchInp.getText())){
-                System.out.println((String) result.get("itemName"));
-                Label lbl = new Label((String) result.get("itemName"));
-                searchResultsParent.getChildren().add(lbl);
-                lbl.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        selectItem(result);
-                    }
-                });
-
-            }
+            generateSearchResults(result, searchResultsParent);
         }
 
         searchResults.setExpanded(true);
+    }
+
+    @FXML
+    private VBox searchResultsParent1;
+    @FXML
+    private TextField searchInp1;
+
+    public void generateSearchResults(Document result, VBox parent) {
+        String resString = (String) result.get("itemName");
+        if (resString.contains(searchInp1.getText())){
+            System.out.println((String) result.get("itemName"));
+            Label lbl = new Label((String) result.get("itemName"));
+            parent.getChildren().add(lbl);
+            lbl.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    selectItem(result);
+                }
+            });
+        }
+    }
+
+
+    @FXML
+    private void UpdatesSearchAction(){
+        searchResultsParent1.getChildren().clear();
+        MongoCollection<Document> db = new Database().getConnection("Inventories");
+        Document data = db.find(new Document("_id", InventoryData.get("_id"))).first();
+        Iterable<Document>  results = (Iterable<Document>) data.get("items");
+//        Bson filter = Filters.eq("itemName", new Document("$regex", ".*"+searchInp.getText()+".* "));
+//        Iterable<Document> results = (Iterable<Document>) db.find(filter);
+        for (Document result : results) {
+            generateSearchResults(result, searchResultsParent1);
+        }
+
+        searchResults1.setExpanded(true);
     }
 
     @FXML
@@ -150,4 +181,55 @@ public class ItemOperationsController {
     public void setItemsParentVbox(VBox itemsParentVbox) {
         this.itemsParentVbox = itemsParentVbox;
     }
+
+    @FXML
+    private VBox updateTextfieldsContainer;
+
+    private void loadUpdateTxts(){
+        updateTextfieldsContainer.getChildren().clear();
+        Iterable<String> cols = (Iterable<String>) InventoryData.get("columns");
+        int count = 0;
+
+        ArrayList<TextField> txts = new ArrayList<>();
+        for (String col : cols) {
+            if (count == 1 || count ==3){
+                count++;
+                continue;
+            }
+            TextField txt = new TextField();
+            Label lbl = new Label(col + ":" );
+            txt.setId( col);
+            if (itemChosen != null){
+                txt.setText(String.valueOf(itemChosen.get(col)));
+            }
+            updateTextfieldsContainer.getChildren().addAll(lbl, txt);
+            count++;
+            txts.add(txt);
+        }
+        Button updateBtn = new Button("Update Item");
+        updateTextfieldsContainer.getChildren().add(updateBtn);
+        updateBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Bson filter = Filters.and(
+                        Filters.eq("_id", InventoryData.get("_id")),
+                        Filters.eq("items.itemId", itemChosen.get("itemId"))
+                );
+                MongoCollection<Document> db = new Database().getConnection("Inventories");
+
+                for (TextField txt : txts) {
+                    Bson update = Updates.set("items.$." + txt.getId(), txt.getText());
+                    db.findOneAndUpdate(filter, update);
+                }
+
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("Update done.");
+                alert.showAndWait();
+                reloadInventoryPage();
+            }
+        });
+
+
+    }
+
 }
