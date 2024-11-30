@@ -89,10 +89,8 @@ public class ItemOperationsController {
 //        Bson filter = Filters.eq("itemName", new Document("$regex", ".*"+searchInp.getText()+".* "));
 //        Iterable<Document> results = (Iterable<Document>) db.find(filter);
         for (Document result : results) {
-            generateSearchResults(result, searchResultsParent);
+            generateSearchResults(result, searchResultsParent, searchResults);
         }
-
-        searchResults.setExpanded(true);
     }
 
     @FXML
@@ -100,7 +98,7 @@ public class ItemOperationsController {
     @FXML
     private TextField searchInp1;
 
-    public void generateSearchResults(Document result, VBox parent) {
+    public void generateSearchResults(Document result, VBox parent, TitledPane resultsHolder) {
         String resString = (String) result.get("itemName");
         if (resString.contains(searchInp1.getText())){
             System.out.println((String) result.get("itemName"));
@@ -110,9 +108,11 @@ public class ItemOperationsController {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
                     selectItem(result);
+                    resultsHolder.setExpanded(false);
                 }
             });
         }
+        resultsHolder.setExpanded(true);
     }
 
 
@@ -125,10 +125,8 @@ public class ItemOperationsController {
 //        Bson filter = Filters.eq("itemName", new Document("$regex", ".*"+searchInp.getText()+".* "));
 //        Iterable<Document> results = (Iterable<Document>) db.find(filter);
         for (Document result : results) {
-            generateSearchResults(result, searchResultsParent1);
+            generateSearchResults(result, searchResultsParent1, searchResults1);
         }
-
-        searchResults1.setExpanded(true);
     }
 
     @FXML
