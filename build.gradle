@@ -51,6 +51,13 @@ dependencies {
     // ikonli
 // https://mvnrepository.com/artifact/org.kordamp.ikonli/ikonli-javafx
     implementation group: 'org.kordamp.ikonli', name: 'ikonli-javafx', version: '12.3.1'
+    // dev icons
+    implementation 'org.kordamp.ikonli:ikonli-devicons-pack:12.3.1'
+    // dashboard icons
+    implementation 'org.kordamp.ikonli:ikonli-dashicons-pack:12.3.1'
+    // entypo
+    implementation 'org.kordamp.ikonli:ikonli-entypo-pack:12.3.1'
+
 
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
