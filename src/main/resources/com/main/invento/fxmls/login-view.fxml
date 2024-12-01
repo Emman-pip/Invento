@@ -20,9 +20,9 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="81.0" prefWidth="338.0">
                            <children>
-                              <Label style="-fx-font-weight: 500;" text="Sign in to Invento" textFill="#5a9d8d">
+                              <Label style="-fx-font-weight: 500;" text="SIGN IN TO INVENTO" textAlignment="CENTER" textFill="#5a9d8d">
                                  <font>
-                                    <Font size="19.0" />
+                                    <Font name="Hack Nerd Font Regular" size="20.0" />
                                  </font>
                               </Label>
                            </children>
@@ -46,9 +46,9 @@
                      <children>
                         <VBox alignment="CENTER" prefHeight="233.0" prefWidth="202.0">
                            <children>
-                              <Label text="Hello there" textFill="WHITE">
+                              <Label text="NO ACCOUNT?" textFill="WHITE">
                                  <font>
-                                    <Font size="32.0" />
+                                    <Font name="System Bold" size="32.0" />
                                  </font>
                               </Label>
                            </children>

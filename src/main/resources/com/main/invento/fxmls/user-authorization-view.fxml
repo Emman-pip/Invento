@@ -22,7 +22,7 @@
                            <children>
                               <Label text="WELCOME" textFill="WHITE">
                                  <font>
-                                    <Font size="32.0" />
+                                    <Font name="System Bold" size="32.0" />
                                  </font>
                               </Label>
                            </children>
@@ -38,7 +38,7 @@
                            <children>
                               <Label text="Create Account" textFill="#5a9d8d">
                                  <font>
-                                    <Font size="19.0" />
+                                    <Font name="System Bold" size="20.0" />
                                  </font>
                               </Label>
                            </children>
