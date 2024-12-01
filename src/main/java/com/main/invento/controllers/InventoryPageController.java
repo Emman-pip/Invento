@@ -10,10 +10,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -50,8 +53,18 @@ public class InventoryPageController {
     @FXML
     private Label inventoryName;
 
+    @FXML
+    private Button addBtn;
+
+    @FXML
+    private Button manageBtn;
     public void initialize(){
         itemsParentContainer.setFitToWidth(true);
+        UserDashboardController.setButtonAnimation(addBtn);
+        UserDashboardController.loadIcon(addBtn, "dashicons-plus-alt2", 32);
+        UserDashboardController.setButtonAnimation(manageBtn);
+        UserDashboardController.loadIcon(manageBtn, "dashicons-edit", 32);
+
     }
 
     @FXML
@@ -91,17 +104,25 @@ public class InventoryPageController {
     public static void loadItems(VBox parent, Document inventoryData){
         Iterable<String> columns = (Iterable<String>) inventoryData.get("columns");
         Iterable<Document> items = (Iterable<Document>) inventoryData.get("items");
-        String[] defaultValues = {"itemName",  "categories"};
+        String[] defaultValues = {"itemName",  "category"};
         List<String> listOfDefaultValues = Arrays.asList(defaultValues);
         parent.getChildren().clear();
         for (Document item : items) {
             VBox mainContainer = new VBox();
-            mainContainer.setStyle("-fx-background-color: white;");
+//            mainContainer.setStyle("-fx-background-color: white;");
             VBox informationContainer = new VBox();
 
-            HBox itemNameAndCategory = new HBox();
-            itemNameAndCategory.getChildren().addAll(new Label((String)item.get("itemName") ), new Label((String)item.get("category")));
-            mainContainer.getChildren().add(itemNameAndCategory);
+            // label for item
+            Label itemName  = new Label((String)item.get("itemName") );
+            itemName.setStyle("-fx-font-weight: bold; -fx-font-size: 15px");
+            Label category = new Label("Category: " + item.get("category"));
+            BorderPane itemContainer = new BorderPane();
+            itemContainer.setPadding(new Insets(10,10,10,10));
+            itemContainer.setLeft(itemName);
+            itemContainer.setRight(category);
+
+            // add the label to the parent...
+            mainContainer.getChildren().add(itemContainer);
 
             for (String column : columns) {
                 if (listOfDefaultValues.contains(column)){
@@ -126,12 +147,28 @@ public class InventoryPageController {
                 }
             });
             TitledPane pane = new TitledPane();
+            itemContainer.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    pane.setExpanded(! pane.isExpanded());
+                }
+            });
+
+            mainContainer.setStyle(
+                    "-fx-background-color: E3E3E3;"  +
+                    "-fx-background-radius: 10px 10px 0px 0px;" +
+                    "-fx-border-radius: 10px 10px 0px 0px;" +
+                    "-fx-border-color: gray;"
+            );
+
+            pane.setStyle(
+                    "-fx-background-color: E3E3E3;"
+            );
             pane.setText("Information");
             pane.setContent(informationContainer);
             pane.setExpanded(false);
             mainContainer.getChildren().add(pane);
             parent.getChildren().add(mainContainer);
-            System.out.println();
         }
     }
     // REPORTS (sales)

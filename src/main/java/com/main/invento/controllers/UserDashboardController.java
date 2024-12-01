@@ -73,7 +73,7 @@ public class UserDashboardController {
     @FXML
     private Button logoutBtn;
 
-    private void setButtonAnimation(Button btn){
+    public static void setButtonAnimation(Button btn){
         btn.setStyle(
                 "-fx-padding: 10px;"  +
                         "-fx-background-color: #e6e6e6;" +
@@ -158,7 +158,9 @@ public class UserDashboardController {
         controller.setUsername(this.username);
         controller.setInventoryData(new Database().getConnection("Inventories").find(new Document("_id", id)).first());
         Stage stage =  new Stage();
-        stage.setScene(new Scene(root));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(Main.class.getResource("styles/inventoryPagestyles.css").toExternalForm());
+        stage.setScene(scene);
         stage.show();
         // do not close the window here...
 //        Stage oldstage = (Stage)analytics.getScene().getWindow();

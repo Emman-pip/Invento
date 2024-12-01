@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -16,20 +13,6 @@
 <AnchorPane prefHeight="864.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.InventoryPageController">
     <children>
         <BorderPane layoutX="33.0" layoutY="100.0" prefHeight="600.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <left>
-                <VBox alignment="CENTER" prefHeight="600.0" prefWidth="49.0" style="-fx-background-color: #5A9D8D;" BorderPane.alignment="CENTER">
-                    <children>
-                        <ImageView fx:id="inventoryIcon" accessibleText="Inventories" fitHeight="43.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" style="-fx-icon-code: di-java; -fx-icon-size: 100px;">
-                            <image>
-                                <Image url="@../media/list.png" />
-                            </image>
-                            <cursor>
-                                <Cursor fx:constant="DEFAULT" />
-                            </cursor>
-                        </ImageView>
-                    </children>
-                </VBox>
-            </left>
             <center>
                 <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                     <children>
@@ -51,7 +34,12 @@
                                       </HBox>
                      </center>
                      <right>
-                        <Button mnemonicParsing="false" onAction="#openManageItems" text="Manage Items" BorderPane.alignment="CENTER" />
+                        <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addItem" text="Add item" />
+                              <Button fx:id="manageBtn" mnemonicParsing="false" onAction="#openManageItems" text="Manage Items" />
+                           </children>
+                        </HBox>
                      </right>
                   </BorderPane>
                   <BorderPane prefHeight="798.0" prefWidth="1099.0">
@@ -69,10 +57,7 @@
                            </content></ScrollPane>
                      </center>
                      <top>
-                        <HBox prefHeight="69.0" prefWidth="1099.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <Button mnemonicParsing="false" onAction="#addItem" text="Add items" />
-                           </children></HBox>
+                        <HBox prefHeight="69.0" prefWidth="1099.0" BorderPane.alignment="CENTER" />
                      </top>
                   </BorderPane>
                     </children>
