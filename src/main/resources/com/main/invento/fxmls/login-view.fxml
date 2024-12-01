@@ -12,11 +12,11 @@
 
 <AnchorPane prefHeight="529.0" prefWidth="807.0" styleClass="authorizationBg" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.UserAuthorizationController">
    <children>
-      <AnchorPane layoutX="36.0" layoutY="35.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5a9d8d;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane layoutX="36.0" layoutY="35.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <BorderPane layoutX="118.0" layoutY="-11.0" prefHeight="340.0" prefWidth="540.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <center>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="272.0" spacing="10.0" style="-fx-background-color: #E8F3F1;" BorderPane.alignment="CENTER">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="272.0" spacing="10.0" style="-fx-background-color: #E8F3F1; -fx-background-radius: 30px 0px 0px 30px;" BorderPane.alignment="CENTER">
                      <children>
                         <VBox alignment="CENTER" prefHeight="81.0" prefWidth="338.0">
                            <children>
@@ -42,7 +42,7 @@
                   </VBox>
                </center>
                <right>
-                  <VBox alignment="CENTER" prefHeight="469.0" prefWidth="256.0" style="-fx-background-color: #5a9d8d; -fx-scale-x: 1;" BorderPane.alignment="CENTER">
+                  <VBox alignment="CENTER" prefHeight="469.0" prefWidth="256.0" style="-fx-background-color: #5a9d8d; -fx-scale-x: 1; -fx-background-radius: 0px 30px 30px 0px;" BorderPane.alignment="CENTER">
                      <children>
                         <VBox alignment="CENTER" prefHeight="233.0" prefWidth="202.0">
                            <children>
