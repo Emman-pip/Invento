@@ -1,6 +1,7 @@
 package com.main.invento.controllers;
 
 import com.main.invento.Main;
+import com.main.invento.models.UserAuthorizationModel;
 import com.main.invento.utilityClasses.Database;
 import com.main.invento.utilityClasses.InventoryLogger;
 import com.mongodb.client.MongoCollection;
@@ -10,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,6 +20,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -25,6 +28,8 @@ import javafx.stage.Stage;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+import org.kordamp.ikonli.Ikon;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 import java.nio.channels.AlreadyBoundException;
@@ -55,18 +60,63 @@ public class UserDashboardController {
 //      System.out.println(userData.keySet());
     }
 
-    @FXML
-    private HBox analytics;
-
-    @FXML
-    private ImageView inventoryIcon;
 
     @FXML
     private ScrollPane sharedInventoriesParent;
+
+    @FXML
+    private TabPane tabbedPane;
+
+    @FXML
+    private Button inventoryIcon;
+
+    @FXML
+    private Button logoutBtn;
+
+    private void setButtonAnimation(Button btn){
+        btn.setStyle(
+                "-fx-padding: 10px;"  +
+                        "-fx-background-color: #e6e6e6;" +
+                        "-fx-background-radius: 5px;" +
+                        "-fx-border-color: gray;" +
+                        "-fx-border-radius: 5px;"
+        );
+        btn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                btn.setStyle(
+                        "-fx-padding: 10px;"  +
+                                "-fx-background-color: gray;" +
+                                "-fx-background-radius: 5px;" +
+                                "-fx-border-color: gray;" +
+                                "-fx-border-radius: 5px;"
+                );
+            }
+        });
+
+        btn.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                btn.setStyle(
+                        "-fx-padding: 10px;"  +
+                                "-fx-background-color: #e6e6e6;" +
+                                "-fx-background-radius: 5px;" +
+                                "-fx-border-color: gray;" +
+                                "-fx-border-radius: 5px;"
+                );
+            }
+        });
+    }
+
     @FXML
     public void initialize(){
         this.ownedInventoriesParent.setFitToWidth(true);
         this.sharedInventoriesParent.setFitToWidth(true);
+        loadIcon(createBtn, "dashicons-plus-alt2", 32);
+        loadIcon(inventoryIcon, "dashicons-editor-ul", 32);
+        loadIcon(logoutBtn, "enty-log-out", 32);
+        setButtonAnimation(createBtn);
+        setButtonAnimation(logoutBtn);
     }
 
     @FXML
@@ -148,10 +198,11 @@ public class UserDashboardController {
         if (item == null){
             return;
         }
-        HBox container = new HBox();
+        BorderPane container = new BorderPane();
 
         Button updateBtn = new Button("Update");
         Label lbl = new Label((String)item.get("inventoryName"));
+        lbl.setStyle("-fx-font-weight: bold");
 
         Button deleteBtn = new Button("Delete Inventory");
 
@@ -164,7 +215,7 @@ public class UserDashboardController {
                 isInside = true;
             }
         }
-        container.setStyle("-fx-background-color: white; -fx-padding: 10px;");
+        container.setStyle("-fx-border-radius: 10px; -fx-border-color:gray; -fx-padding: 10px;");
         container.setCursor(Cursor.HAND);
 
         shareBtn.setOnAction(new EventHandler<ActionEvent>() {
@@ -223,8 +274,17 @@ public class UserDashboardController {
         });
 
 
+        Button[] btns = {updateBtn, shareBtn, deleteBtn};
+        for (Button btn : btns) {
+            setButtonAnimation(btn);
+        }
+        container.setLeft(lbl);
         if (isInside){
-            container.getChildren().addAll(lbl, updateBtn, shareBtn, deleteBtn);
+            HBox buttons = new HBox();
+            buttons.setPadding(new Insets(10, 10, 0,0));
+            buttons.setSpacing(5);
+            buttons.getChildren().addAll( updateBtn, shareBtn, deleteBtn);
+            container.setBottom(buttons);
         }
         parent.getChildren().add(container);
     }
@@ -245,7 +305,7 @@ public class UserDashboardController {
 
     @FXML
     private void logout() throws IOException{
-        Stage oldstage = (Stage)this.analytics.getScene().getWindow();
+        Stage oldstage = (Stage)this.tabbedPane.getScene().getWindow();
         oldstage.close();
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/login-view.fxml"));
         Scene scene =  new Scene(loader.load());
@@ -254,6 +314,18 @@ public class UserDashboardController {
         stage.setTitle("Signup");
         stage.setResizable(false);
         stage.show();
+    }
+
+    @FXML
+    private  Button createBtn;
+
+    public static void loadIcon(Button btn, String iconName, int size){
+        FontIcon icon = new FontIcon();
+//        icon.setIconCode();
+        icon.setIconLiteral(iconName);
+        icon.setIconSize(size);
+        btn.setGraphic(icon);
+
     }
     // loadInventoryRanks(): void
     //

@@ -90,7 +90,9 @@ public class UserAuthorizationController {
             dashboard.setUsername(this.loginUsername.getText());
 
             Stage stage = new Stage();
-            stage.setScene(new Scene(loaded));
+            Scene scene = new Scene(loaded);
+            scene.getStylesheets().add(Main.class.getResource("styles/dashboardStyles.css").toExternalForm());
+            stage.setScene(scene);
             stage.setTitle("Dashboard");
             stage.show();
 
@@ -115,7 +117,7 @@ public class UserAuthorizationController {
     }
 
 
-    private static void buttonHoverAnimation(Button btn, String color1, String color2, String defaultColor){
+    public static void buttonHoverAnimation(Button btn, String color1, String color2, String defaultColor){
         btn.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
