@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="529.0" prefWidth="807.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.UserAuthorizationController">
+<AnchorPane prefHeight="529.0" prefWidth="807.0" styleClass="authorizationBg" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.UserAuthorizationController">
    <children>
       <AnchorPane layoutX="36.0" layoutY="35.0" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5a9d8d;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -29,14 +29,14 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="111.0" prefWidth="491.0" spacing="20.0">
                            <children>
-                              <TextField fx:id="loginUsername" prefHeight="20.0" promptText="Username" style="-fx-background-color: #D9D9D9;" />
-                              <PasswordField fx:id="loginPassword" prefHeight="20.0" prefWidth="411.0" promptText="Password" style="-fx-background-color: #D9D9D9;" />
+                              <TextField fx:id="loginUsername" prefHeight="20.0" promptText="Username" style="-fx-background-color: #D9D9D9;" styleClass="txt-field" />
+                              <PasswordField fx:id="loginPassword" prefHeight="20.0" prefWidth="411.0" promptText="Password" style="-fx-background-color: #D9D9D9;" styleClass="txt-field" />
                            </children>
                            <padding>
                               <Insets left="40.0" right="40.0" />
                            </padding>
                         </VBox>
-                        <Button mnemonicParsing="false" onAction="#login" prefHeight="47.0" prefWidth="112.0" style="-fx-background-color: transparent; -fx-border-color: #5a9d8d; -fx-border-radius: 10em;" text="Sign in" textFill="#5a9d8d" />
+                        <Button fx:id="greenBtn" mnemonicParsing="false" onAction="#login" prefHeight="47.0" prefWidth="112.0" style="-fx-background-color: transparent; -fx-border-color: #5a9d8d; -fx-border-radius: 10em;" text="Sign in" textFill="#5a9d8d" />
                         <Label fx:id="loginWarning" textFill="RED" />
                      </children>
                   </VBox>
@@ -53,7 +53,7 @@
                               </Label>
                            </children>
                         </VBox>
-                        <Button mnemonicParsing="false" onAction="#toSignup" prefHeight="51.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-radius: 10em; -fx-border-color: #FFFFFF;" text="Sign up" textFill="WHITE" />
+                        <Button fx:id="whiteBtn" mnemonicParsing="false" onAction="#toSignup" prefHeight="51.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-radius: 10em; -fx-border-color: #FFFFFF;" text="Sign up" textFill="WHITE" />
                      </children>
                   </VBox>
                </right>

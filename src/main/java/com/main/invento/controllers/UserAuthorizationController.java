@@ -4,13 +4,16 @@ import com.main.invento.Main;
 import com.main.invento.binders.UserAuthorizationBinder;
 import com.main.invento.models.UserAuthorizationModel;
 import com.main.invento.utilityClasses.Database;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.bson.types.ObjectId;
 
@@ -104,9 +107,49 @@ public class UserAuthorizationController {
         Stage stage = new Stage();
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/login-view.fxml"));
         Scene scene =  new Scene(loader.load());
+        scene.getStylesheets().add(Main.class.getResource("styles/styles.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Login");
         stage.setResizable(false);
         stage.show();
     }
+
+
+    private static void buttonHoverAnimation(Button btn, String color1, String color2, String defaultColor){
+        btn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                btn.setStyle(
+                        "-fx-background-color: " + color1 + ";" +
+                                "-fx-background-radius:10em;" +
+                                "-fx-border-color: " + color1 + ";" +
+                                "-fx-border-radius: 10em;" +
+                                "-fx-text-fill: " + color2
+                );
+            }
+        });
+        btn.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                btn.setStyle(
+                        "-fx-background-color: " + defaultColor + ";" +
+                                "-fx-background-radius:10em;" +
+                                "-fx-border-color: " + color1 + ";" +
+                                "-fx-border-radius: 10em;" +
+                                "-fx-text-fill: " + color1);
+            }
+        });
+    }
+
+    @FXML
+    private Button whiteBtn;
+    @FXML
+    private Button greenBtn;
+
+    public void initialize(){
+        buttonHoverAnimation(whiteBtn, "#E8F3F1", "#5a9d8d", "transparent");
+        buttonHoverAnimation(greenBtn, "#5a9d8d", "#E8F3F1", "transparent");
+
+    }
+
 }

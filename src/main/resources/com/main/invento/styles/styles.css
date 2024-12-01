@@ -1,0 +1,25 @@
+* {
+}
+
+.authorizationBg {
+    -fx-background-image: url("image2.png");
+}
+
+ /* dark green color: #5a9d8d */
+ /* lighteset green color: #E8F3F1 */
+
+.txt-field {
+    -fx-padding: 10px 10px 10px 10px;
+    -fx-border-radius: 30px;
+    -fx-background-radius: 30px;
+}
+
+.whiteBtn {
+    -fx-background-color: transparent;
+}
+
+.whiteBtn:hover {
+    -fx-background-color: #E8F3F1;
+}
+
+.greenBtn {}
