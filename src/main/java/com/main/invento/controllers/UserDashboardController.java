@@ -202,7 +202,7 @@ public class UserDashboardController {
         }
         BorderPane container = new BorderPane();
 
-        Button updateBtn = new Button("Update");
+        Button updateBtn = new Button("Edit table");
         Label lbl = new Label((String)item.get("inventoryName"));
         lbl.setStyle("-fx-font-weight: bold");
 

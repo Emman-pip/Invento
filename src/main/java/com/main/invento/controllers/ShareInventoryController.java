@@ -48,13 +48,20 @@ public class ShareInventoryController {
     @FXML
     private VBox collaborations;
 
+    @FXML
+    private Button addBtn;
+
+    public void initialize(){
+        UserDashboardController.setButtonAnimation(addBtn);
+    }
+
     private void loadUsers(){
         collaborations.getChildren().clear();
         Iterable<String> users =  (Iterable<String>)this.inventoryData.get("sharedTo");
         int count = 0 ;
         for (String user : users) {
             BorderPane bp = new BorderPane();
-            bp.setRight(new Label(user));
+            bp.setLeft(new Label(user));
             Button btn= new Button("delete");
 
             btn.setOnAction(new EventHandler<ActionEvent>() {
@@ -63,7 +70,9 @@ public class ShareInventoryController {
                     pullUsersFromShared(user);
                 }
             });
-            bp.setLeft(btn);
+            bp.setRight(btn);
+            UserDashboardController.setButtonAnimation(btn);
+
             collaborations.getChildren().add(bp);
             count++;
         }
