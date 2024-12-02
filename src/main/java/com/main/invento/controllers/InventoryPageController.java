@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -113,7 +114,6 @@ public class InventoryPageController {
         parent.getChildren().clear();
         for (Document item : items) {
             VBox mainContainer = new VBox();
-//            mainContainer.setStyle("-fx-background-color: white;");
             VBox informationContainer = new VBox();
 
             // label for item
@@ -151,6 +151,7 @@ public class InventoryPageController {
                 }
             });
             TitledPane pane = new TitledPane();
+            pane.setStyle("-fx-background-color: white; ");
             itemContainer.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -159,14 +160,38 @@ public class InventoryPageController {
             });
 
             mainContainer.setStyle(
-                    "-fx-background-color: E3E3E3;"  +
-                    "-fx-background-radius: 10px 10px 0px 0px;" +
+                    "-fx-background-color: null;"  +
+                    "-fx-background-radius: 10px 10px 10px 10px;" +
                     "-fx-border-radius: 10px 10px 0px 0px;" +
                     "-fx-border-color: gray;"
             );
 
+            mainContainer.setCursor(Cursor.HAND);
+            mainContainer.setOnMouseEntered(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    mainContainer.setStyle(
+                            "-fx-background-color: #e0e0e0;"  +
+                                    "-fx-background-radius: 10px 10px 0px 0px;" +
+                                    "-fx-border-radius: 10px 10px 0px 0px;" +
+                                    "-fx-border-color: gray;"
+                    );
+                }
+            });
+
+            mainContainer.setOnMouseExited(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    mainContainer.setStyle(
+                            "-fx-background-color: null;"  +
+                                    "-fx-background-radius: 10px 10px 0px 0px;" +
+                                    "-fx-border-radius: 10px 10px 0px 0px;" +
+                                    "-fx-border-color: gray;"
+                    );
+                } });
+
             pane.setStyle(
-                    "-fx-background-color: E3E3E3;"
+                    "-fx-background-color: null;"
             );
             pane.setText("Information");
             pane.setContent(informationContainer);

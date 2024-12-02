@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="1000.0" stylesheets="@../styles/dashboardStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.UserDashboardController">
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" style="-fx-background-color: #e8f3f1;" stylesheets="@../styles/dashboardStyles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.UserDashboardController">
    <children>
       <BorderPane layoutX="33.0" layoutY="100.0" prefHeight="600.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -50,13 +50,13 @@
                   </BorderPane>
                </top>
                <center>
-                  <TabPane fx:id="tabbedPane" prefHeight="374.0" prefWidth="931.0" tabClosingPolicy="UNAVAILABLE">
+                  <TabPane fx:id="tabbedPane" prefHeight="374.0" prefWidth="931.0" style="-fx-background-color: #e8f3f1;" tabClosingPolicy="UNAVAILABLE">
                     <tabs>
                       <Tab style="-fx-fill: white;" text="Owned Inventories">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="285.0" prefWidth="931.0" style="-fx-border-color: transprent;">
                                  <children>
-                                    <ScrollPane fx:id="ownedInventoriesParent" prefHeight="338.0" prefWidth="931.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <ScrollPane fx:id="ownedInventoriesParent" prefHeight="338.0" prefWidth="931.0" style="-fx-background-radius: 10px; -fx-border-radius: 10px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <content>
                                           <VBox fx:id="ownedInventoriesContainer" prefHeight="338.0" prefWidth="931.0" spacing="10.0">
                                              <padding>
