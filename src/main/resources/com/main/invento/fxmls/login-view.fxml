@@ -16,7 +16,7 @@
          <children>
             <BorderPane layoutX="118.0" layoutY="-11.0" prefHeight="340.0" prefWidth="540.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <center>
-                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="272.0" spacing="10.0" style="-fx-background-color: #E8F3F1; -fx-background-radius: 30px 0px 0px 30px;" BorderPane.alignment="CENTER">
+                  <VBox alignment="CENTER" prefHeight="200.0" prefWidth="272.0" spacing="10.0" style="-fx-background-radius: 30px 0px 0px 30px;" BorderPane.alignment="CENTER">
                      <children>
                         <VBox alignment="CENTER" prefHeight="81.0" prefWidth="338.0">
                            <children>
@@ -29,14 +29,23 @@
                         </VBox>
                         <VBox alignment="CENTER" prefHeight="111.0" prefWidth="491.0" spacing="20.0">
                            <children>
-                              <TextField fx:id="loginUsername" prefHeight="20.0" promptText="Username" style="-fx-background-color: #D9D9D9;" styleClass="txt-field" />
-                              <PasswordField fx:id="loginPassword" prefHeight="20.0" prefWidth="411.0" promptText="Password" style="-fx-background-color: #D9D9D9;" styleClass="txt-field" />
+                              <TextField fx:id="loginUsername" prefHeight="20.0" promptText="Username" style="-fx-background-color: #D9D9D9; -fx-background-radius: 30px;" styleClass="txt-field">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></TextField>
+                              <PasswordField fx:id="loginPassword" prefHeight="20.0" prefWidth="411.0" promptText="Password" style="-fx-background-color: #D9D9D9; -fx-background-radius: 30px;" styleClass="txt-field">
+                                 <font>
+                                    <Font size="15.0" />
+                                 </font></PasswordField>
                            </children>
                            <padding>
                               <Insets left="40.0" right="40.0" />
                            </padding>
                         </VBox>
-                        <Button fx:id="greenBtn" mnemonicParsing="false" onAction="#login" prefHeight="47.0" prefWidth="112.0" style="-fx-background-color: transparent; -fx-border-color: #5a9d8d; -fx-border-radius: 10em;" text="Sign in" textFill="#5a9d8d" />
+                        <Button fx:id="greenBtn" mnemonicParsing="false" onAction="#login" prefHeight="47.0" prefWidth="112.0" style="-fx-background-color: transparent; -fx-border-color: #5a9d8d; -fx-border-radius: 10em;" text="Sign in" textFill="#5a9d8d">
+                           <font>
+                              <Font size="20.0" />
+                           </font></Button>
                         <Label fx:id="loginWarning" textFill="RED" />
                      </children>
                   </VBox>
@@ -53,7 +62,10 @@
                               </Label>
                            </children>
                         </VBox>
-                        <Button fx:id="whiteBtn" mnemonicParsing="false" onAction="#toSignup" prefHeight="51.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-radius: 10em; -fx-border-color: #FFFFFF;" text="Sign up" textFill="WHITE" />
+                        <Button fx:id="whiteBtn" mnemonicParsing="false" onAction="#toSignup" prefHeight="51.0" prefWidth="101.0" style="-fx-background-color: transparent; -fx-border-radius: 10em; -fx-border-color: #FFFFFF;" text="Sign up" textFill="WHITE">
+                           <font>
+                              <Font size="20.0" />
+                           </font></Button>
                      </children>
                   </VBox>
                </right>
