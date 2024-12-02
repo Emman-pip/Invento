@@ -58,6 +58,10 @@ public class InventoryPageController {
 
     @FXML
     private Button manageBtn;
+
+    @FXML
+    private Button analyticsBtn;
+
     public void initialize(){
         itemsParentContainer.setFitToWidth(true);
         UserDashboardController.setButtonAnimation(addBtn);
@@ -190,6 +194,14 @@ public class InventoryPageController {
         stage.setScene(new Scene(root));
         stage.show();
     }
+
+
+    @FXML
+    private void openAnalytics(){
+
+    }
+
+
 
 // DONE deleteItem
 // TODO   add validators (and change the shitty percentage) - to add item

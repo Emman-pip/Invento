@@ -57,7 +57,10 @@
                            </content></ScrollPane>
                      </center>
                      <top>
-                        <HBox prefHeight="69.0" prefWidth="1099.0" BorderPane.alignment="CENTER" />
+                        <HBox prefHeight="69.0" prefWidth="1099.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button fx:id="analyticsBtn" mnemonicParsing="false" onAction="#openAnalytics" />
+                           </children></HBox>
                      </top>
                   </BorderPane>
                     </children>
