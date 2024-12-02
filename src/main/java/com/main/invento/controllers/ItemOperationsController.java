@@ -12,6 +12,7 @@ import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -89,7 +90,7 @@ public class ItemOperationsController {
 //        Bson filter = Filters.eq("itemName", new Document("$regex", ".*"+searchInp.getText()+".* "));
 //        Iterable<Document> results = (Iterable<Document>) db.find(filter);
         for (Document result : results) {
-            generateSearchResults(result, searchResultsParent, searchResults);
+            generateSearchResults(searchInp, result, searchResultsParent, searchResults);
         }
     }
 
@@ -98,9 +99,9 @@ public class ItemOperationsController {
     @FXML
     private TextField searchInp1;
 
-    public void generateSearchResults(Document result, VBox parent, TitledPane resultsHolder) {
+    public void generateSearchResults(TextField searchBox, Document result, VBox parent, TitledPane resultsHolder) {
         String resString = (String) result.get("itemName");
-        if (resString.contains(searchInp1.getText())){
+        if (resString.contains(searchBox.getText())){
             System.out.println((String) result.get("itemName"));
             Label lbl = new Label((String) result.get("itemName"));
             parent.getChildren().add(lbl);
@@ -125,7 +126,7 @@ public class ItemOperationsController {
 //        Bson filter = Filters.eq("itemName", new Document("$regex", ".*"+searchInp.getText()+".* "));
 //        Iterable<Document> results = (Iterable<Document>) db.find(filter);
         for (Document result : results) {
-            generateSearchResults(result, searchResultsParent1, searchResults1);
+            generateSearchResults(searchInp1, result, searchResultsParent1, searchResults1);
         }
     }
 
