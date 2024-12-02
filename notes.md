@@ -1,7 +1,16 @@
 # TODO
-## tasks to carry
-    - [ ] finish UML
-        - [ ] add usermodel to the UML
+
+- Analytics page
+1. Sort by date range
+2. Generate pie chart for item storage reference
+3. generate an area plot
+4. generate central tendencies and measures variance statistics
+
+- Alerts
+1. when lower than threshhold, raise an alert!
+
+- Report generation
+1. generate reports with charts, records (in pdf format)
 
 # JSON structure
 
