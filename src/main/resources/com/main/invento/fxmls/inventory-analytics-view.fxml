@@ -13,7 +13,7 @@
          <top>
             <BorderPane fx:id="chartsBorderPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <top>
-                  <VBox fx:id="vbox" prefHeight="315.0" prefWidth="1020.0" BorderPane.alignment="CENTER">
+                  <VBox fx:id="vbox" prefHeight="85.0" prefWidth="1020.0" BorderPane.alignment="CENTER">
                      <children>
                         <Label text="Inventory Name Here">
                            <font>

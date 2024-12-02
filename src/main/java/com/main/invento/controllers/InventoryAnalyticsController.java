@@ -1,17 +1,20 @@
 package com.main.invento.controllers;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.css.Size;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import org.bson.types.ObjectId;
 
 public class InventoryAnalyticsController {
@@ -35,11 +38,23 @@ public class InventoryAnalyticsController {
     private void loadAddCharts(){
         BorderPane bp = new BorderPane();
         loadAreaChart(bp);
+        loadPieChart(bp);
         chartsBorderPane.setCenter(bp);
     }
 
-    private void loadPieChart(){
+    private void loadPieChart(BorderPane parent){
+        ObservableList<PieChart.Data> pieChartData =
+                FXCollections.observableArrayList(
+                        new PieChart.Data("Grapefruit", 13),
+                        new PieChart.Data("Oranges", 25),
+                        new PieChart.Data("Plums", 10),
+                        new PieChart.Data("Pears", 22),
+                        new PieChart.Data("Apples", 30));
+        final PieChart pieChart = new PieChart(pieChartData);
 
+        AnchorPane pane = new AnchorPane();
+        pane.getChildren().addAll(pieChart);
+        parent.setRight(pane);
     }
 
     private void loadAreaChart(BorderPane parent){
@@ -77,6 +92,6 @@ public class InventoryAnalyticsController {
         pane.setPrefSize(ac.getWidth(), ac.getHeight());
 
         pane.getChildren().add(ac);
-        parent.setCenter(pane);
+        parent.setLeft(pane);
     }
 }
