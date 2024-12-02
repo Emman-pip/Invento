@@ -95,6 +95,13 @@ public class InventoryLogger {
         Document log = new InventoryLogsModel(itemId, reportType + " " +  itemName, sales, unitsSold).getInventoryLog();
         MongoCollection<Document> db = new Database().getConnection("Inventories");
         Bson filter = Filters.eq("_id", inventoryId);
+        Document data = db.find(filter).first();
+        Iterable<Document> items = (Iterable<Document>)data.get("items");
+        for (Document item : items) {
+            if (item.get("itemId").equals(itemId)){
+                log.put("capitalPerUnit", Integer.parseInt(String.valueOf(item.get("capitalPerUnit"))));
+            }
+        }
         Bson update = Updates.push("logs", log);
         db.findOneAndUpdate(filter, update);
     }
