@@ -24,7 +24,7 @@
                   <Label text="Inventory Sharing" />
                   <BorderPane prefHeight="66.0" prefWidth="565.0">
                      <right>
-                        <Button mnemonicParsing="false" onAction="#addUser" text="Add" BorderPane.alignment="CENTER" />
+                        <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addUser" text="Add" BorderPane.alignment="CENTER" />
                      </right>
                      <center>
                         <TextField fx:id="newUser" BorderPane.alignment="CENTER" />
