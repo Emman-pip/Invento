@@ -24,6 +24,7 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class InventoryAnalyticsController {
@@ -46,7 +47,7 @@ public class InventoryAnalyticsController {
 
     private void loadAddCharts(){
         BorderPane bp = new BorderPane();
-        loadAreaChart(bp, loadAreaChartData());
+        loadAreaChart(bp, loadAreaChartData(12));
         loadPieChart(bp);
         chartsBorderPane.setCenter(bp);
     }
@@ -66,19 +67,28 @@ public class InventoryAnalyticsController {
         parent.setRight(pane);
     }
 
-    private HashMap<ObjectId, ArrayList<Document>> loadAreaChartData(){
+    private HashMap<ObjectId, HashMap<Integer, Double>> loadAreaChartData(int month){
         MongoCollection<Document> db = new Database().getConnection("Inventories");
         Document inventoryData = db.find(new Document("_id", inventoryId)).first();
         Iterable<Document> logs = (Iterable<Document>) inventoryData.get("logs");
-        HashMap<ObjectId, ArrayList<Document>> groupedLogs = new HashMap<ObjectId, ArrayList<Document>>();
+//        HashMap<ObjectId, ArrayList<Document>> groupedLogs = new HashMap<ObjectId, ArrayList<Document>>();
+        HashMap<ObjectId, HashMap<Integer, Double>> groupedLogs = new HashMap<ObjectId, HashMap<Integer, Double>>();
         for (Document log : logs) {
             if (log.get("capitalPerUnit") == null){
                 continue;
             }
             else if (!groupedLogs.containsKey(log.get("itemId"))){
-                groupedLogs.put((ObjectId) log.get("itemId"), new ArrayList<Document>());
+                groupedLogs.put((ObjectId) log.get("itemId"), new HashMap<Integer, Double>());
             }
-            groupedLogs.get((ObjectId)log.get("itemId")).add(log);
+            Date date = new Date(Long.parseLong(String.valueOf(log.get("timestamp"))) * (long)1000);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd");
+            int dateKey = Integer.parseInt(sdf.format(date));
+            if (!groupedLogs.get((ObjectId) log.get("itemId")).containsKey(dateKey)){
+                groupedLogs.get((ObjectId) log.get("itemId")).put(dateKey, Double.parseDouble(String.valueOf(0.0)));
+            }
+            double oldRev = groupedLogs.get((ObjectId) log.get("itemId")).get(dateKey);
+            double revenue = (double)log.get("sales")  - (log.getDouble("unitsSold") * log.getInteger("capitalPerUnit"));
+            groupedLogs.get((ObjectId) log.get("itemId")).put(dateKey, oldRev +  revenue);
         }
 //            Bson filter = Aggregates.match(Filters.and(Filters.eq("_id", inventoryId), Filters.eq("logs.$.itemId", log.get("itemId"))));
 //            AggregateIterable<Document> aggregated = db.aggregate(Arrays.asList(filter));
@@ -88,20 +98,23 @@ public class InventoryAnalyticsController {
         return groupedLogs;
     }
 
-    private void loadAreaChart(BorderPane parent, HashMap<ObjectId, ArrayList<Document>> data){
+    private void loadAreaChart(BorderPane parent, HashMap<ObjectId, HashMap<Integer, Double>> data){
 //        System.out.println(data.toString());
         int size = data.size();
 
         Set<ObjectId> keys = data.keySet();
 
         int longest= 0;
-        for (ArrayList<Document> value : data.values()) {
-            if (value.size() > longest) {
-                longest = value.size();
+        for (HashMap<Integer, Double> datum: data.values()){
+            for (int key : datum.keySet()){
+                if (key > longest){
+                    longest = key;
+                }
             }
         }
 
-        final NumberAxis xAxis = new NumberAxis(1, longest, 1);
+
+        final NumberAxis xAxis = new NumberAxis(1, longest + 1, 1);
         xAxis.setLabel("Time");
         final NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Sales");
@@ -113,17 +126,15 @@ public class InventoryAnalyticsController {
 
         for (ObjectId key : keys) {
             XYChart.Series stack1 = new XYChart.Series();
-            int counter = 1;
             for (Document item : items) {
                 if (item.get("itemId").equals(key)){
                     stack1.setName((String)item.get("itemName"));
                 }
             }
-            for (Document document : data.get(key)) {
+            for (int singleEntry : data.get(key).keySet()) {
 //                System.out.println(document.toString());
-                double revenue = Double.valueOf(String.valueOf(document.get("sales"))) - (Double.valueOf(String.valueOf(document.get("unitsSold"))) * Double.valueOf(String.valueOf(document.get("capitalPerUnit"))));
-                stack1.getData().add(new XYChart.Data(counter, revenue));
-                counter ++;
+                double revenue = data.get(key).get(singleEntry);
+                stack1.getData().add(new XYChart.Data(singleEntry, revenue));
             }
             ac.getData().addAll(stack1);
         }
