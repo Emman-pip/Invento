@@ -5,9 +5,12 @@ import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.css.Size;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Side;
@@ -16,6 +19,7 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -33,7 +37,7 @@ public class InventoryAnalyticsController {
 
     public void setInventoryId(ObjectId inventoryId) {
         this.inventoryId = inventoryId;
-        loadAddCharts();
+        loadAddCharts(Integer.parseInt(new SimpleDateFormat("MM").format(new Date())));
     }
 
     @FXML
@@ -45,10 +49,29 @@ public class InventoryAnalyticsController {
     private void initialize(){
     }
 
-    private void loadAddCharts(){
+    private void loadAddCharts(int month){
         BorderPane bp = new BorderPane();
-        loadAreaChart(bp, loadAreaChartData(12));
+        loadAreaChart(bp, loadAreaChartData(month));
         loadPieChart(bp);
+
+        ChoiceBox<Integer> monthSelector = new ChoiceBox<>();
+        monthSelector.getItems().addAll(
+                1,2,3,4,5,6,7,8,9,10,11,12
+        );
+        monthSelector.setValue(month);
+//        monthSelector.setValue(Integer.parseInt(new SimpleDateFormat("MM").format(new Date())));
+
+        monthSelector.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                loadAddCharts((int)newValue+1);
+            }
+        });
+
+
+
+        bp.setTop(monthSelector);
+
         chartsBorderPane.setCenter(bp);
     }
 
@@ -74,7 +97,10 @@ public class InventoryAnalyticsController {
 //        HashMap<ObjectId, ArrayList<Document>> groupedLogs = new HashMap<ObjectId, ArrayList<Document>>();
         HashMap<ObjectId, HashMap<Integer, Double>> groupedLogs = new HashMap<ObjectId, HashMap<Integer, Double>>();
         for (Document log : logs) {
-            if (log.get("capitalPerUnit") == null){
+            long unixTime = log.getInteger("timestamp");
+            Date datePre = new Date(unixTime * 1000);
+            SimpleDateFormat dateFormat1 = new SimpleDateFormat("MM");
+            if (log.get("capitalPerUnit") == null || Integer.parseInt(dateFormat1.format(datePre)) != month){
                 continue;
             }
             else if (!groupedLogs.containsKey(log.get("itemId"))){
@@ -90,18 +116,10 @@ public class InventoryAnalyticsController {
             double revenue = (double)log.get("sales")  - (log.getDouble("unitsSold") * log.getInteger("capitalPerUnit"));
             groupedLogs.get((ObjectId) log.get("itemId")).put(dateKey, oldRev +  revenue);
         }
-//            Bson filter = Aggregates.match(Filters.and(Filters.eq("_id", inventoryId), Filters.eq("logs.$.itemId", log.get("itemId"))));
-//            AggregateIterable<Document> aggregated = db.aggregate(Arrays.asList(filter));
-//            for (Document docu : aggregated){
-//                res.add(docu);
-//            }
         return groupedLogs;
     }
 
     private void loadAreaChart(BorderPane parent, HashMap<ObjectId, HashMap<Integer, Double>> data){
-//        System.out.println(data.toString());
-        int size = data.size();
-
         Set<ObjectId> keys = data.keySet();
 
         int longest= 0;
@@ -113,12 +131,12 @@ public class InventoryAnalyticsController {
             }
         }
 
-
         final NumberAxis xAxis = new NumberAxis(1, longest + 1, 1);
         xAxis.setLabel("Time");
         final NumberAxis yAxis = new NumberAxis();
         yAxis.setLabel("Sales");
         final AreaChart<Number, Number> ac = new AreaChart<Number, Number>(xAxis, yAxis);
+        ac.setTitle("Area Chart of Revenue Overtime");
 
         MongoCollection<Document> db = new Database().getConnection("Inventories");
         Document inventoryData = db.find(new Document("_id", inventoryId)).first();
