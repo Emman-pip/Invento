@@ -92,7 +92,7 @@ public class InventoryAnalyticsController {
             else if (!groupedLogs.containsKey(log.get("itemId"))){
                 groupedLogs.put((ObjectId) log.get("itemId"), Double.parseDouble("0"));
             }
-            double revenue = (double) log.get("sales") + (log.getInteger("capitalPerUnit") * log.getDouble("unitsSold"));
+            double revenue = (double) log.get("sales") - (log.getInteger("capitalPerUnit") * log.getDouble("unitsSold"));
             double totalRevenue = groupedLogs.get((ObjectId) log.get("itemId")) + revenue;
 
             groupedLogs.put((ObjectId) log.get("itemId"),  totalRevenue);
@@ -116,13 +116,17 @@ public class InventoryAnalyticsController {
         Iterable<Document> items = (Iterable<Document>) new Database().getConnection("Inventories").find(new Document("_id", inventoryId)).first().get("items");
         for (ObjectId key : data.keySet()){
             String name = "no name";
+            if (data.get(key) < 0){
+                continue;
+            }
             for (Document doc : items ){
-                System.out.println(doc.getString("itemName"));
+
                 if (doc.get("itemId").equals(key)){
                     name = doc.getString("itemName");
                     break;
                 }
             }
+
             pieChartData.add(new PieChart.Data(name, data.get(key)));
         }
         final PieChart pieChart = new PieChart(pieChartData);
