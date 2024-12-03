@@ -191,10 +191,10 @@ public class ItemOperationsController {
 
         ArrayList<TextField> txts = new ArrayList<>();
         for (String col : cols) {
-            if (count == 1) {// || count ==3){
-                count++;
-                continue;
-            }
+//            if (count == 1) {// || count ==3){
+//                count++;
+//                continue;
+//            }
             TextField txt = new TextField();
             Label lbl = new Label(col + ":" );
             txt.setId( col);
