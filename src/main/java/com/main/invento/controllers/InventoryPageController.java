@@ -224,10 +224,11 @@ public class InventoryPageController {
     @FXML
     private void openAnalytics() throws IOException {
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/inventory-analytics-view.fxml"));
-        Scene scene = new Scene(loader.load());
-        scene.getStylesheets().add(Main.class.getResource("styles/analyticsStyles.css").toExternalForm());
+        Parent root = loader.load();
         InventoryAnalyticsController controller = loader.getController();
-
+        controller.setInventoryId((ObjectId) inventoryData.get("_id"));
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(Main.class.getResource("styles/analyticsStyles.css").toExternalForm());
         Stage stage =  new Stage();
         stage.setScene(scene);
         stage.show();
