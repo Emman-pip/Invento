@@ -52,7 +52,7 @@ public class InventoryAnalyticsController {
     private void loadAddCharts(int month){
         BorderPane bp = new BorderPane();
         loadAreaChart(bp, loadAreaChartData(month));
-        loadPieChart(bp);
+        loadPieChart(bp, loadPieChartData(month));
 
         ChoiceBox<Integer> monthSelector = new ChoiceBox<>();
         monthSelector.getItems().addAll(
@@ -75,15 +75,58 @@ public class InventoryAnalyticsController {
         chartsBorderPane.setCenter(bp);
     }
 
-    private void loadPieChart(BorderPane parent){
-        ObservableList<PieChart.Data> pieChartData =
-                FXCollections.observableArrayList(
-                        new PieChart.Data("Grapefruit", 13),
-                        new PieChart.Data("Oranges", 25),
-                        new PieChart.Data("Plums", 10),
-                        new PieChart.Data("Pears", 22),
-                        new PieChart.Data("Apples", 30));
+    private HashMap<ObjectId,  Double> loadPieChartData(int month){
+        MongoCollection<Document> db = new Database().getConnection("Inventories");
+        Document inventoryData = db.find(new Document("_id", inventoryId)).first();
+        Iterable<Document> logs = (Iterable<Document>) inventoryData.get("logs");
+//        HashMap<ObjectId, ArrayList<Document>> groupedLogs = new HashMap<ObjectId, ArrayList<Document>>();
+        HashMap<ObjectId, Double> groupedLogs = new HashMap<>();
+        for (Document log : logs) {
+            long unixTime = log.getInteger("timestamp");
+            Date datePre = new Date(unixTime * 1000);
+            SimpleDateFormat dateFormat1 = new SimpleDateFormat("MM");
+            if (log.get("capitalPerUnit") == null || Integer.parseInt(dateFormat1.format(datePre)) != month){
+                continue;
+            }
+
+            else if (!groupedLogs.containsKey(log.get("itemId"))){
+                groupedLogs.put((ObjectId) log.get("itemId"), Double.parseDouble("0"));
+            }
+            double revenue = (double) log.get("sales") + (log.getInteger("capitalPerUnit") * log.getDouble("unitsSold"));
+            double totalRevenue = groupedLogs.get((ObjectId) log.get("itemId")) + revenue;
+
+            groupedLogs.put((ObjectId) log.get("itemId"),  totalRevenue);
+        }
+        HashMap<String, Double> toPercentage  = new HashMap<>();
+        double totalAll = 0;
+        for (ObjectId key: groupedLogs.keySet()){
+            totalAll += groupedLogs.get(key);
+        }
+
+        for (ObjectId key: groupedLogs.keySet()){
+
+            groupedLogs.put(key, groupedLogs.get(key)/totalAll);
+        }
+        return groupedLogs;
+
+
+    }
+    private void loadPieChart(BorderPane parent, HashMap<ObjectId, Double> data){
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        Iterable<Document> items = (Iterable<Document>) new Database().getConnection("Inventories").find(new Document("_id", inventoryId)).first().get("items");
+        for (ObjectId key : data.keySet()){
+            String name = "no name";
+            for (Document doc : items ){
+                System.out.println(doc.getString("itemName"));
+                if (doc.get("itemId").equals(key)){
+                    name = doc.getString("itemName");
+                    break;
+                }
+            }
+            pieChartData.add(new PieChart.Data(name, data.get(key)));
+        }
         final PieChart pieChart = new PieChart(pieChartData);
+        pieChart.setTitle("Revenue portion of each item");
 
         AnchorPane pane = new AnchorPane();
         pane.getChildren().addAll(pieChart);
