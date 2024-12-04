@@ -11,42 +11,48 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="369.0" prefWidth="488.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.UpdateInventoryController">
+<AnchorPane prefHeight="399.0" prefWidth="488.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.UpdateInventoryController">
    <children>
       <VBox alignment="TOP_CENTER" layoutX="187.0" layoutY="14.0" prefHeight="400.0" prefWidth="488.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label fx:id="inventoryName" text="Update Inventory: name here">
+            <Label fx:id="inventoryName" prefWidth="466.0" text="Update Inventory: name here">
                <font>
                   <Font name="System Bold" size="20.0" />
                </font>
             </Label>
-            <VBox alignment="CENTER" prefHeight="84.0" prefWidth="282.0">
+            <VBox alignment="BOTTOM_RIGHT" prefHeight="84.0" prefWidth="282.0" spacing="5.0">
                <children>
-                  <Label text="Update Inventory Name:" />
+                  <Label prefHeight="21.0" prefWidth="482.0" text="Update Inventory Name:">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
                   <TextField fx:id="newName" promptText="new inventory name here" />
-                  <Button mnemonicParsing="false" onAction="#updateName" text="update inventory name" />
+                  <Button fx:id="updateBtn" mnemonicParsing="false" onAction="#updateName" text="update inventory name" />
                </children>
             </VBox>
-            <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="TOP_CENTER" prefHeight="248.0" prefWidth="468.0" spacing="5.0">
                <children>
-                  <Label text="Update columns" />
+                  <Label prefHeight="18.0" prefWidth="466.0" text="Update columns">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
                   <HBox alignment="CENTER" prefHeight="32.0" prefWidth="468.0">
                      <children>
-                        <TextField fx:id="newCol" prefHeight="26.0" prefWidth="222.0" />
-                        <Button mnemonicParsing="false" onAction="#addColumn" text="add column" />
+                        <TextField fx:id="newCol" prefHeight="26.0" prefWidth="370.0" />
+                        <Button fx:id="addBtn" mnemonicParsing="false" onAction="#addColumn" text="add column" />
                      </children>
                   </HBox>
-                  <TitledPane fx:id="columnsContainer" animated="false" text="Columns">
+                  <TitledPane fx:id="columnsContainer" animated="false" prefHeight="195.0" prefWidth="468.0" text="Columns">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <ScrollPane fx:id="columnsScrollPane" layoutX="-19.0" layoutY="-43.0" prefHeight="180.0" prefWidth="280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="246.0">
-                                       <children>
-                                          <VBox fx:id="columns" prefHeight="200.0" prefWidth="409.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-163.0" AnchorPane.topAnchor="0.0" />
-                                       </children>
-                                    </AnchorPane>
+                                    <VBox fx:id="columns" prefHeight="200.0" prefWidth="246.0" spacing="5.0">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </VBox>
                                 </content>
                               </ScrollPane>
                            </children>

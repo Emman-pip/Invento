@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -21,8 +22,15 @@ public class UpdateInventoryController {
     private Document inventoryData;
     private UserDashboardController parent;
 
+    @FXML
+    private Button updateBtn;
+
+    @FXML
+    private Button addBtn;
     public void initialize() {
         columnsScrollPane.setFitToWidth(true);
+        ShareInventoryController.addBtnStyle(addBtn);
+        ShareInventoryController.addBtnStyle(updateBtn);
     }
 
     public void setParent(UserDashboardController parent) {
@@ -38,6 +46,7 @@ public class UpdateInventoryController {
         inventoryData = new Database().getConnection("Inventories").find(new Document("_id", inventoryId)).first();
         this.inventoryName.setText("Update inventory:" + (String) inventoryData.get("inventoryName"));
         loadColumns();
+        newName.setText((String) inventoryData.get("inventoryName"));
     }
 
     @FXML
@@ -124,22 +133,29 @@ public class UpdateInventoryController {
         for (String col : cols) {
             Label lbl = new Label(col);
             Button deleteBtn = new Button("Delete column");
+            ShareInventoryController.addBtnStyle(deleteBtn);
             if (Arrays.asList(defaultValues).contains(col)) {
                 deleteBtn.setDisable(true);
             }
-            HBox container = new HBox();
 
             deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
-                    deleteColumns(col);
-                    InventoryLogger.deleteColumns(username, inventoryId, col);
-                    loadColumns();
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setContentText("This action will delete column: " + col);
+                    alert.showAndWait();
+                    if (ButtonType.OK == alert.getResult()){
+                        deleteColumns(col);
+                        InventoryLogger.deleteColumns(username, inventoryId, col);
+                        loadColumns();
+                    }
                 }
             });
 
-            container.getChildren().addAll(lbl, deleteBtn);
-            columns.getChildren().addAll(container);
+            BorderPane pane = new BorderPane();
+            pane.setCenter(lbl);
+            pane.setRight(deleteBtn);
+            columns.getChildren().addAll(pane);
         }
     }
 }
