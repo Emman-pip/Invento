@@ -98,6 +98,8 @@
             <VBox alignment="CENTER" prefHeight="600.0" prefWidth="49.0" style="-fx-background-color: #5A9D8D;" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="inventoryIcon" mnemonicParsing="false" prefHeight="45.0" prefWidth="49.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" />
+                  <Button fx:id="recover" mnemonicParsing="false" prefHeight="55.0" prefWidth="49.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" />
+                  <Button fx:id="printReports" mnemonicParsing="false" prefHeight="53.0" prefWidth="49.0" style="-fx-background-color: transparent; -fx-border-color: transpanret;" />
                </children>
             </VBox>
          </left>

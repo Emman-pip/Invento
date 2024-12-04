@@ -109,12 +109,19 @@ public class UserDashboardController {
     }
 
     @FXML
+    private Button recover;
+
+    @FXML
+    private Button printReports;
+    @FXML
     public void initialize(){
         this.ownedInventoriesParent.setFitToWidth(true);
         this.sharedInventoriesParent.setFitToWidth(true);
         loadIcon(createBtn, "dashicons-plus-alt2", 32);
         loadIcon(inventoryIcon, "dashicons-editor-ul", 32);
         loadIcon(logoutBtn, "enty-log-out", 32);
+        loadIcon(recover, "dashicons-database", 32);
+        loadIcon(printReports, "dashicons-clipboard", 32);
         setButtonAnimation(createBtn);
         setButtonAnimation(logoutBtn);
     }
