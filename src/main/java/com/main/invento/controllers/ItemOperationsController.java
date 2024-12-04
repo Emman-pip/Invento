@@ -31,6 +31,7 @@ public class ItemOperationsController {
         this.InventoryData = inventoryData;
         this.inventoryName.setText((String) new Database().getConnection("Inventories").find(new Document("_id", inventoryData.get("_id"))).first().get("inventoryName"));
         loadUpdateTxts();
+        selectItem(null);
     }
 
     private Document itemChosen;
@@ -61,19 +62,23 @@ public class ItemOperationsController {
     @FXML
     private VBox searchResultsParent;
 
+
+    @FXML
+    private ScrollPane searchResultsScroll1;
+
     public void initialize(){
         searchResults.setExpanded(false);
+        searchResultsScroll1.setFitToWidth(true);
         searchResults1.setExpanded(false);
         searchResultsScroll.setFitToWidth(true);
-
     }
 
     private void selectItem(Document item){
         setItemChosen(item);
         if (this.itemChosen != null){
-            itemName.setText((String)item.get("itemName"));
+            itemName.setText("Selected Item: " + (String)item.get("itemName"));
         } else{
-            itemName.setText("no selected");
+            itemName.setText("no item selected");
         }
         loadUpdateTxts();
     }

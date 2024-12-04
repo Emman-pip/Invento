@@ -24,8 +24,14 @@
                         <Font name="System Bold" size="16.0" />
                      </font>
                   </Label>
-                  <Label fx:id="inventoryName" text="inventoryName here" />
-                  <Label fx:id="itemName" />
+                  <Label fx:id="inventoryName" text="inventoryName here">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
+                  <Label fx:id="itemName">
+                     <font>
+                        <Font size="15.0" />
+                     </font></Label>
                </children>
             </VBox>
          </top>
@@ -52,7 +58,9 @@
                                           </TitledPane>
                                        </children>
                                     </VBox>
+                                    <Label prefHeight="18.0" prefWidth="592.0" text="Units sold:" />
                                     <TextField fx:id="unitsSold" promptText="units sold" />
+                                    <Label prefHeight="18.0" prefWidth="587.0" text="Total sales:" />
                                     <TextField fx:id="totalSales" promptText="total sales" />
                                     <Button mnemonicParsing="false" onAction="#reportSale" text="Report Sale" />
                                  </children>
