@@ -12,6 +12,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -52,7 +53,42 @@ public class ShareInventoryController {
     private Button addBtn;
 
     public void initialize(){
-        UserDashboardController.setButtonAnimation(addBtn);
+        addBtnStyle(addBtn);
+    }
+
+    private static void addBtnStyle(Button btn){
+        btn.setStyle(
+                        "-fx-padding: 5px 10px 5px 10px;"  +
+                        "-fx-background-color: #e6e6e6;" +
+                        "-fx-background-radius: 5px;" +
+                        "-fx-border-color: gray;" +
+                        "-fx-border-radius: 5px;"
+        );
+        btn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+
+                btn.setStyle(
+                                "-fx-padding: 5px 10px 5px 10px;"  +
+                                "-fx-background-color: gray;" +
+                                "-fx-background-radius: 5px;" +
+                                "-fx-border-color: gray;" +
+                                "-fx-border-radius: 5px;"
+                );
+            }
+        });
+        btn.setOnMouseExited(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                btn.setStyle(
+                        "-fx-padding: 5px 10px 5px 10px;"  +
+                                "-fx-background-color: #e6e6e6;" +
+                                "-fx-background-radius: 5px;" +
+                                "-fx-border-color: gray;" +
+                                "-fx-border-radius: 5px;"
+                );
+            }
+        });
     }
 
     private void loadUsers(){
@@ -71,7 +107,7 @@ public class ShareInventoryController {
                 }
             });
             bp.setRight(btn);
-            UserDashboardController.setButtonAnimation(btn);
+            addBtnStyle(btn);
 
             collaborations.getChildren().add(bp);
             count++;
