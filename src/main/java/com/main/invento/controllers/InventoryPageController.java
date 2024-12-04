@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -123,7 +124,7 @@ public class InventoryPageController {
             BorderPane itemContainer = new BorderPane();
             itemContainer.setPadding(new Insets(10,10,10,10));
             itemContainer.setLeft(itemName);
-            itemContainer.setRight(category);
+            HBox itemUtility = new HBox();
 
             // add the label to the parent...
             mainContainer.getChildren().add(itemContainer);
@@ -135,7 +136,13 @@ public class InventoryPageController {
                 informationContainer.getChildren().add(new Label(column + ": " + item.get(column)));
             }
             Button deleteBtn = new Button("Delete item");
-            informationContainer.getChildren().add(deleteBtn);
+            UserDashboardController.setButtonAnimation(deleteBtn);
+
+            itemUtility.setAlignment(Pos.CENTER);
+            itemUtility.setSpacing(10);
+            itemUtility.getChildren().addAll(category, deleteBtn);
+            itemContainer.setRight(itemUtility);
+
             deleteBtn.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) {
