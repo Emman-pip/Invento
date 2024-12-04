@@ -7,6 +7,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -28,6 +29,16 @@ public class CreateInventoryController {
 
     @FXML
     private TextField inventoryName;
+    @FXML
+    private Button createBtn;
+
+    @FXML
+    private Button cancelBtn;
+
+    public void initialize(){
+        UserDashboardController.setButtonAnimation(createBtn);
+        UserDashboardController.setButtonAnimation(cancelBtn);
+    }
 
     private void addToOwnedInventories(ObjectId inventoryId){
         MongoCollection<Document> db = new Database().getConnection("Users");
@@ -58,4 +69,13 @@ public class CreateInventoryController {
     public void setParent(UserDashboardController root){
         this.parent = root;
     }
+
+    @FXML
+    private void cancel(){
+        Stage stage = (Stage) createBtn.getScene().getWindow();
+        stage.close();
+    }
+
+
+
 }

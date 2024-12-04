@@ -4,16 +4,25 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="176.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.main.invento.controllers.CreateInventoryController">
    <children>
       <VBox alignment="CENTER" layoutX="120.0" layoutY="-12.0" prefHeight="188.0" prefWidth="390.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
          <children>
-            <Label text="Inventory Name:" />
+            <Label prefHeight="18.0" prefWidth="367.0" text="Inventory Name:">
+               <font>
+                  <Font size="17.0" />
+               </font></Label>
             <TextField fx:id="inventoryName" minWidth="-Infinity" prefHeight="26.0" prefWidth="313.0" />
-            <Button mnemonicParsing="false" onAction="#createNewInventory" text="Create" />
+            <HBox alignment="TOP_RIGHT" spacing="10.0">
+               <children>
+                  <Button fx:id="createBtn" mnemonicParsing="false" onAction="#createNewInventory" text="Create" />
+                  <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+               </children>
+            </HBox>
          </children>
       </VBox>
    </children>
