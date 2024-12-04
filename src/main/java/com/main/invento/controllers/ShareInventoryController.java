@@ -56,7 +56,7 @@ public class ShareInventoryController {
         addBtnStyle(addBtn);
     }
 
-    private static void addBtnStyle(Button btn){
+    public static void addBtnStyle(Button btn){
         btn.setStyle(
                         "-fx-padding: 5px 10px 5px 10px;"  +
                         "-fx-background-color: #e6e6e6;" +
