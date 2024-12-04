@@ -8,9 +8,11 @@ import com.mongodb.client.model.Updates;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -50,7 +52,7 @@ public class AddItemController {
     }
 
     @FXML
-    private VBox columnsContainer;
+    private GridPane columnsContainer;
     public static boolean isNumeric(String str) {
         try {
             Double.parseDouble(str);
@@ -64,13 +66,16 @@ public class AddItemController {
         ArrayList<String> columns = (ArrayList<String>) this.inventoryData.get("columns");
 
         ArrayList<TextField> textfields = new ArrayList<>();
+        int rowCount = 0;
         for (String column : columns) {
-            HBox container = new HBox();
             Label lbl = new Label(column + ": ");
             TextField inputField = new TextField();
             textfields.add(inputField);
-            container.getChildren().addAll(lbl, inputField);
-            columnsContainer.getChildren().add(container);
+            GridPane.setConstraints(lbl, 0, rowCount);
+            GridPane.setConstraints(inputField, 1, rowCount);
+            columnsContainer.getChildren().addAll(lbl, inputField);
+            columnsContainer.setVgap(10);
+            rowCount++;
         }
 
         Button submit = new Button("Add item");
@@ -97,6 +102,11 @@ public class AddItemController {
                 InventoryPageController.loadItems(parent, inventoryData);
             }
         });
-        columnsContainer.getChildren().add(submit);
+        HBox btnContainer = new HBox();
+        btnContainer.getChildren().add(submit);
+        btnContainer.setAlignment(Pos.CENTER);
+        UserDashboardController.setButtonAnimation(submit);
+        GridPane.setConstraints(btnContainer, 0, rowCount, 2, 1);
+        columnsContainer.getChildren().add(btnContainer);
     }
 }
