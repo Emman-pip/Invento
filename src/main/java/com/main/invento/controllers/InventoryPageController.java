@@ -70,7 +70,7 @@ public class InventoryPageController {
         UserDashboardController.loadIcon(addBtn, "dashicons-plus-alt2", 32);
         UserDashboardController.setButtonAnimation(manageBtn);
         UserDashboardController.loadIcon(manageBtn, "dashicons-edit", 32);
-        UserDashboardController.loadIcon(analyticsBtn, "dashicons-chart-line", 28);
+        UserDashboardController.loadIcon(analyticsBtn, "dashicons-chart-line", 44);
     }
 
     @FXML
