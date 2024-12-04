@@ -13,6 +13,8 @@ import javafx.css.Size;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Side;
 import javafx.scene.Scene;
 import javafx.scene.chart.AreaChart;
@@ -24,6 +26,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
@@ -68,9 +71,11 @@ public class InventoryAnalyticsController {
             }
         });
 
-
-
-        bp.setTop(monthSelector);
+        HBox container = new HBox();
+        container.setPadding(new Insets(10, 0, 10, 0));
+        container.setAlignment(Pos.CENTER_RIGHT);
+        container.getChildren().addAll(new Label("Choose month: "), monthSelector);
+        bp.setTop(container);
 
         chartsBorderPane.setCenter(bp);
     }
@@ -130,10 +135,12 @@ public class InventoryAnalyticsController {
             pieChartData.add(new PieChart.Data(name, data.get(key)));
         }
         final PieChart pieChart = new PieChart(pieChartData);
-        pieChart.setTitle("Revenue portion of each item");
+        pieChart.setTitle("Profit portion of each item");
 
         AnchorPane pane = new AnchorPane();
         pane.getChildren().addAll(pieChart);
+        pane.setBorder(Border.stroke(Paint.valueOf("gray")));
+        pane.setStyle("-fx-border-radius: 10px; -fx-background-radius: 10px;-fx-border-color: gray");
         parent.setRight(pane);
     }
 
@@ -181,9 +188,9 @@ public class InventoryAnalyticsController {
         final NumberAxis xAxis = new NumberAxis(1, longest + 1, 1);
         xAxis.setLabel("Time");
         final NumberAxis yAxis = new NumberAxis();
-        yAxis.setLabel("Sales");
+        yAxis.setLabel("Profits");
         final AreaChart<Number, Number> ac = new AreaChart<Number, Number>(xAxis, yAxis);
-        ac.setTitle("Area Chart of Revenue Overtime");
+        ac.setTitle("Area Chart of Profits Overtime");
 
         MongoCollection<Document> db = new Database().getConnection("Inventories");
         Document inventoryData = db.find(new Document("_id", inventoryId)).first();
@@ -207,10 +214,11 @@ public class InventoryAnalyticsController {
 
 
         AnchorPane pane = new AnchorPane();
-        pane.setPrefSize(ac.getWidth(), ac.getHeight());
+        pane.setBorder(Border.stroke(Paint.valueOf("gray")));
+        pane.setStyle("-fx-border-radius: 10px; -fx-background-radius: 10px; -fx-border-color: gray");
 
         pane.getChildren().add(ac);
-        parent.setLeft(pane);
+        parent.setCenter(pane);
 
 //        XYChart.Series stack1 = new XYChart.Series();
 //        stack1.setName("stack 1");
