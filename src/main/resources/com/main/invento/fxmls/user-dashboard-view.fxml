@@ -95,7 +95,7 @@
             </BorderPane>
          </center>
          <left>
-            <VBox alignment="CENTER" prefHeight="600.0" prefWidth="49.0" style="-fx-background-color: #5A9D8D;" BorderPane.alignment="CENTER">
+            <VBox alignment="CENTER" prefHeight="600.0" prefWidth="49.0" style="-fx-background-color: #5A9D8D;" BorderPane.alignment="TOP_CENTER">
                <children>
                   <Button fx:id="inventoryIcon" mnemonicParsing="false" prefHeight="45.0" prefWidth="49.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" />
                   <Button fx:id="recover" mnemonicParsing="false" prefHeight="55.0" prefWidth="49.0" style="-fx-background-color: transparent; -fx-border-color: transparent;" />

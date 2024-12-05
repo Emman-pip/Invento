@@ -318,6 +318,7 @@ public class UserDashboardController {
         oldstage.close();
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("fxmls/login-view.fxml"));
         Scene scene =  new Scene(loader.load());
+        scene.getStylesheets().add(Main.class.getResource("styles/styles.css").toExternalForm());
         Stage  stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Signup");

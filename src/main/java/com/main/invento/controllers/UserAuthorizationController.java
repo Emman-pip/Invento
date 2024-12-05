@@ -36,12 +36,13 @@ public class UserAuthorizationController {
     private Label warning;
 
     @FXML
-    public void signUp() throws NoSuchAlgorithmException {
+    public void signUp() throws Exception {
         boolean isValid = UserAuthorizationBinder.validateUser(username) && UserAuthorizationBinder.validateFields(email) && UserAuthorizationBinder.validateFields(password, confirmPassword);
         if (isValid){
             warning.setText("Welcome!!!");
             UserAuthorizationBinder.bindSignup(this.username.getText(), this.email.getText(), this.organization.getText(), this.password.getText());
             warning.setStyle("-fx-text-fill: green");
+            toLogin();
         } else {
             warning.setText("Please recheck all the fields.");
             warning.setStyle("-fx-text-fill: red");
