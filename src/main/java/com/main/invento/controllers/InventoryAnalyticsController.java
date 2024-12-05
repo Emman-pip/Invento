@@ -44,6 +44,9 @@ public class InventoryAnalyticsController {
     }
 
     @FXML
+    private Label inventoryName;
+
+    @FXML
     private BorderPane chartsBorderPane;
     @FXML
     private VBox vbox;
@@ -83,6 +86,7 @@ public class InventoryAnalyticsController {
     private HashMap<ObjectId,  Double> loadPieChartData(int month){
         MongoCollection<Document> db = new Database().getConnection("Inventories");
         Document inventoryData = db.find(new Document("_id", inventoryId)).first();
+        inventoryName.setText((String) inventoryData.get("inventoryName"));
         Iterable<Document> logs = (Iterable<Document>) inventoryData.get("logs");
 //        HashMap<ObjectId, ArrayList<Document>> groupedLogs = new HashMap<ObjectId, ArrayList<Document>>();
         HashMap<ObjectId, Double> groupedLogs = new HashMap<>();
@@ -219,34 +223,20 @@ public class InventoryAnalyticsController {
 
         pane.getChildren().add(ac);
         parent.setCenter(pane);
-
-//        XYChart.Series stack1 = new XYChart.Series();
-//        stack1.setName("stack 1");
-//
-//        stack1.getData().add(new XYChart.Data( 1,4));
-//        stack1.getData().add(new XYChart.Data( 2,40));
-//        stack1.getData().add(new XYChart.Data( 3,32));
-//        stack1.getData().add(new XYChart.Data( 4,8));
-//        stack1.getData().add(new XYChart.Data( 5,21));
-//
-//        XYChart.Series stack2 = new XYChart.Series();
-//        stack2.setName("stack 2");
-//
-//        stack2.getData().add(new XYChart.Data( 4,8));
-//        stack2.getData().add(new XYChart.Data( 2,40));
-//        stack2.getData().add(new XYChart.Data(10, 99));
-//        stack2.getData().add(new XYChart.Data( 1,4));
-//        stack2.getData().add(new XYChart.Data( 5,21));
-//
-//        ac.getData().addAll(stack1, stack2);
-//        ac.setTitle("ransom");
-//        ac.setLegendVisible(true);
-//        ac.setLegendSide(Side.BOTTOM);
-//
-//        AnchorPane pane = new AnchorPane();
-//        pane.setPrefSize(ac.getWidth(), ac.getHeight());
-//
-//        pane.getChildren().add(ac);
-//        parent.setLeft(pane);
     }
+
+    @FXML
+    private BorderPane analytics;
+
+    private void loadRankingData(){
+        MongoCollection<Document> db = new Database().getConnection("Inventories");
+        Document inventoryData = db.find(new Document("_id", inventoryId)).first();
+        Iterable<Document> logs = (Iterable<Document>) inventoryData.get("logs");
+
+    }
+
+    private void loadRanking(Iterable<Document> data){
+
+    }
+
 }
