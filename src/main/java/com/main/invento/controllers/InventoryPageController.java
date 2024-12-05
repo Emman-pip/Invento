@@ -92,6 +92,7 @@ public class InventoryPageController {
         Bson filter = Filters.eq("_id", inventoryId);
         Bson recordPull = Filters.eq("itemId", itemId);
         Bson update = Updates.pull("items", recordPull);
+        Bson logsPull = Updates.pull("logs", Filters.eq("itemId", itemId));
 
         Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationAlert.setContentText("This action will permamnently delete the item");
@@ -101,6 +102,7 @@ public class InventoryPageController {
         }
         MongoCollection<Document> db = new Database().getConnection("Inventories");
         db.findOneAndUpdate(filter, update);
+        db.findOneAndUpdate(filter, logsPull);
         return true;
 
     }
